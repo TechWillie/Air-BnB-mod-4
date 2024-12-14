@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 
-// Log in
+//! ***** Log in
 router.post('/', async (req, res, next) => {
       const { credential, password } = req.body;
   
@@ -44,5 +44,15 @@ router.post('/', async (req, res, next) => {
       });
     }
   );
+
+// Log out
+router.delete(
+    '/',
+    (_req, res) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+  );
+  
 
 module.exports = router;
