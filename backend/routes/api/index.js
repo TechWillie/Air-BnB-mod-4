@@ -26,7 +26,13 @@ const { restoreUser } = require('../../utils/auth.js');
     router.use('/users', usersRouter);
 
     router.post('/test', function(req, res) {
-        res.json({ requestBody: req.body });
+        // desturcture the firstname and lastanme from req.body
+        const { firstName, lastName } = req.body;
+
+        res.json({ requestBody: req.body,
+            firstName: firstName || 'Unknown',
+            lastName: lastName || 'Unknown'
+         });
         });
             
             // // GET /api/require-auth
