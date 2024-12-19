@@ -98,12 +98,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     }, {
     sequelize,
-    modelName: 'Spot',
-    defaultScope: {
-      attributes: {
-        exclude: ['hashedPassword', 'email'],
-      },
-    },
+    modelName: 'Spot'
   });
   return Spot;
 };

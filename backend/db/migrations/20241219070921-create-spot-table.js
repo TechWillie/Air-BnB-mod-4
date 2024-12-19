@@ -1,7 +1,7 @@
 'use strict';
 
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../models');
+// const { DataTypes } = require('sequelize');
+// const { sequelize } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -95,6 +95,6 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Spots";
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Spots');
   }
 };
