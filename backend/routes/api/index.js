@@ -19,22 +19,22 @@ const { restoreUser } = require('../../utils/auth.js');
 //   return res.json({ user: user });
 // });
             
-    router.use(restoreUser);
 
-    router.use('/session', sessionRouter);
+router.use(restoreUser);
 
-    router.use('/users', usersRouter);
+router.use('/session', sessionRouter);
 
-    router.post('/test', function(req, res) {
-        // desturcture the firstname and lastanme from req.body
-        const { firstName, lastName } = req.body;
+router.use('/users', usersRouter);
 
-        res.json({ requestBody: req.body,
-            firstName: firstName || 'Unknown',
-            lastName: lastName || 'Unknown'
-         });
-        });
-            
+router.post('/test', function(req, res) {
+    // desturcture the firstname and lastanme from req.body
+    const { firstName, lastName } = req.body;
+
+    res.json({ requestBody: req.body,
+        firstName: firstName || 'Unknown',
+        lastName: lastName || 'Unknown'
+     });
+    });
             // // GET /api/require-auth
 // router.get(
 //   '/require-auth',
