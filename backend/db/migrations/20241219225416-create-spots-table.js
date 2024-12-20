@@ -19,10 +19,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         unique: false,
-        references:{
-          model: "User",
-          key: "id"
-        }
       },
       address: {
         type: Sequelize.STRING,
@@ -78,17 +74,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
-      avgRating: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      previewImage: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: false
-      } 
-    });
+      }
+    }, options);
      
 
   },

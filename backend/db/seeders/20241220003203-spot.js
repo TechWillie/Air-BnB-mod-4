@@ -10,32 +10,28 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
     await Spot.bulkCreate([
-      {
+      {ownerId: 1,
         address: '123 drive court',
         city: "Smyrna",
         state: "Georgia",
         country: "United Kingdom",
-        lat: 31.23,
-        lng: 23.45,
+        lat: 3123,
+        lng: 2345,
         name: "Cornre Store",
         description: "Not your ordinary store...",
-        price: 234,
-        avgRating: 4.5,
-        previewImage: "url image"
+        price: 234
       },
-      {
+      {ownerId: 2,
         address: '123 dve court',
         city: "Smyruuua",
         state: "Geoa",
         country: "United states",
-        lat: 31.23,
-        lng: 23.45,
+        lat: 3123,
+        lng: 2345,
         name: "Cornre shop",
         description: "Not your  store...",
-        price: 34,
-        avgRating: 5,
-        previewImage: "url age"
-      }], { validate: true });
+        price: 34
+      }], {validate: true});
     },
     async down(queryInterface, Sequelize) {
       // Delete the inserted spot record in case of rollback

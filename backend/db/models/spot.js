@@ -16,10 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         ownerId:{
           type: DataTypes.INTEGER,
           allowNull: false,
-          references: {
-              model: "Users" ,
-              key: "id"
-          },
+          
         },
         address:{
           type: DataTypes.STRING,
@@ -92,26 +89,10 @@ module.exports = (sequelize, DataTypes) => {
           validate: {
               isNumeric: true
             },
-      },
-      avgRating: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: false,
-        validate: {
-          isNumeric: true,
-        },
-      },
-      previewImage: {
-        type: DataTypes.STRING
       }
     }, {
     sequelize,
-    modelName: 'User',
-    defaultScope: {
-      attributes: {
-        exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
-      },
-    },
+    modelName: 'Spot',
   });
-  return User;
+  return Spot;
 };
