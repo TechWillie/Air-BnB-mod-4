@@ -1,6 +1,12 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
+const {Spot} = require('../models')
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
 module.exports = {
   async up (queryInterface, Sequelize) {
     await Spot.bulkCreate([
@@ -16,12 +22,27 @@ module.exports = {
         price: 234,
         avgRating: 4.5,
         previewImage: "url image"
+      },
+      {
+        address: '123 dve court',
+        city: "Smyruuua",
+        state: "Geoa",
+        country: "United states",
+        lat: 31.23,
+        lng: 23.45,
+        name: "Cornre shop",
+        description: "Not your  store...",
+        price: 34,
+        avgRating: 5,
+        previewImage: "url age"
       }], { validate: true });
     },
     async down(queryInterface, Sequelize) {
       // Delete the inserted spot record in case of rollback
-      await queryInterface.bulkDelete('Spots', {
-        name: 'Cornre Store'
+      options.tableName = 'Spots';
+      const Op = Sequelize.Op;
+      await queryInterface.bulkDelete(options, {
+        name: {[Op.in]:[ "Cornre Store", "Cornre shop"]}
       }, {});
     }
   };
