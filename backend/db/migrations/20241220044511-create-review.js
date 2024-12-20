@@ -18,18 +18,18 @@ module.exports = {
       userId:{
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "users",
-          key: "id"
-        }
+        // references: {
+        //   model: "users",
+        //   key: "id"
+        // }
       },
       spotId:{
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "spots",
-          key: "id"
-        }
+        // references: {
+        //   model: "spots",
+        //   key: "id"
+        // }
       },
       review:{
         allowNull: false,

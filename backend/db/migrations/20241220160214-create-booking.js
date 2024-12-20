@@ -19,10 +19,10 @@ module.exports = {
         spotId:{
           allowNull: false,
           type: Sequelize.INTEGER,
-          references: {
-            model: "spots",
-            key: "id"
-          }
+          // references: {
+          //   model: "spots",
+          //   key: "id"
+          // }
         },
         spot:{
           type: Sequelize.STRING,
@@ -30,10 +30,10 @@ module.exports = {
         },
         userId:{
           type: Sequelize.INTEGER,
-          references:{
-            model: "users",
-            key: "id"
-          },
+          // references:{
+          //   model: "users",
+          //   key: "id"
+          // },
           allowNull: false
         },
         startDate:{
@@ -59,11 +59,8 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    
+     await queryInterface.dropTable('Bookings');
+     
   }
 };
