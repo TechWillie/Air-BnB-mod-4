@@ -1,28 +1,95 @@
 'use strict';
 
-const { sequelize } = require('../models');
-// const { TIME } = require('sequelize').DataTypes;
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
 
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('spots', 
-      { id: Sequelize.INTEGER,
-        ownerId: Sequelize.INTEGER,
-        address: Sequelize.TEXT,
-        city: Sequelize.TEXT,
-        state: Sequelize.TEXT,
-        country: Sequelize.TEXT,
-        lat: Sequelize.INTEGER,
-        lng: Sequelize.INTEGER,
-        name: Sequelize.TEXT,
-        description: Sequelize.TEXT,
-        price: Sequelize.INTEGER,
-        createdAt: Sequelize.TIME,
-        updatedAt: Sequelize.TIME,
-        previewImage: Sequelize.TEXT
-       });
+    await queryInterface.createTable('Spots', 
+      {id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      ownerId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: false,
+        references:{
+          model: "User",
+          key: "id"
+        }
+      },
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique:true
+      },
+      city: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      state: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      country: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      lat: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      lng: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      avgRating: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      previewImage: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false
+      } 
+    });
      
 
   },
