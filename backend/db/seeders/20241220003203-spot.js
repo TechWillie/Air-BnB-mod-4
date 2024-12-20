@@ -18,12 +18,10 @@ module.exports = {
         previewImage: "url image"
       }], { validate: true });
     },
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
-  }
-};
+    async down(queryInterface, Sequelize) {
+      // Delete the inserted spot record in case of rollback
+      await queryInterface.bulkDelete('Spots', {
+        name: 'Cornre Store'
+      }, {});
+    }
+  };
