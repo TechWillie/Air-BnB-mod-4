@@ -11,7 +11,6 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Review.bulkCreate([
       {
-        id: 1,
         userId: 1,
         spotId: 1,
         review: "Very nice place",
@@ -24,7 +23,7 @@ module.exports = {
         review: "Very big condo",
         stars: 5,
         user: "Willie"
-      },
+      }
     ], {validate: true})
   },
 
@@ -33,7 +32,7 @@ module.exports = {
    options.tableName = 'Reviews';
    const Op = Sequelize.Op;
    await queryInterface.bulkDelete(options, {
-     name: {[Op.in]:[ "Cornre Store", "Cornre shop"]}
+     user: {[Op.in]:[ "Willie", "Marlin"]}
    }, {});
  }
 };

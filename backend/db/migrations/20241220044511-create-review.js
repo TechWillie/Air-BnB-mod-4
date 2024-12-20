@@ -1,7 +1,5 @@
 'use strict';
 
-// const { Model } = require('sequelize');
-
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -18,18 +16,20 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId:{
+        type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "users",
-          key: "id"
-        }
+        // references: {
+        //   model: "users",
+        //   key: "id"
+        // }
       },
       spotId:{
+        type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "spots",
-          key: "id"
-        }
+        // references: {
+        //   model: "spots",
+        //   key: "id"
+        // }
       },
       review:{
         allowNull: false,

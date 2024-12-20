@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Review.init(
     {
-    id:{
-        type: DataTypes.INTEGER,
-        primaryKey: true
-    },
     userId:{
         type: DataTypes.INTEGER
     },
@@ -28,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     stars:{
         type: DataTypes.INTEGER,
-        isNumeric: true
+        validate: {
+          isNumeric: true
+        },
     },
     user:{
         type: DataTypes.STRING
