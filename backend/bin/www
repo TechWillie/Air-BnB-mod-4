@@ -4,9 +4,6 @@
 // Import environment variables
 require('dotenv').config();
 
-console.log(process.env.DB_HOST);
-
-
 const { port } = require('../config');
 
 const app = require('../app');
