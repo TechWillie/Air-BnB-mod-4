@@ -1,15 +1,16 @@
 // backend/routes/api/spots.js
 const express = require('express');
 const router = express.Router();
-const { Spot } = require('../../db/models');
+// Imports from the class
+const { Spot, Images } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 const { validationResult, body } = require('express-validator');
 
-// GET /api/spots - Fetch all spots
+//! GET all spots
 router.get('/', async (req, res) => {
   try {
-    // Fetch all spots from the database
+    //Fetch from the database
     const spots = await Spot.findAll();
 
     // Map over the spots and format the response
@@ -94,6 +95,54 @@ router.post('/', requireAuth, spotValidationRules, async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ error: 'Failed to create spot' });
+  }
+});
+
+
+//! Add an image to a spot based on the Spota id
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  const { spotId } = req.params;
+  const { url, preview } = req.body;
+
+  // Validate input data
+  if (!url || !preview) {
+    return res.status(400).json({
+      error: "Image URL and preview are required"
+    });
+  }
+
+  try {
+    // Find the spot by id
+    const spot = await Spot.findByPk(spotId);
+
+    // If spot doesn't exist, return 404
+    if (!spot) {
+      return res.status(404).json({ error: "Spot not found" });
+    }
+
+    // Check if the authenticated user is the owner of the spot
+    if (spot.ownerId !== req.user.id) {
+      return res.status(403).json({
+        error: "You are not authorized to add an image to this spot"
+      });
+    }
+
+    // Create the image and associate it with the spot
+    const newImage = await Image.create({
+      spotId: spot.id,
+      url,
+      preview,
+    });
+
+    // Return the created image data
+    return res.status(201).json({
+      id: newImage.id,
+      url: newImage.url,
+      preview: newImage.preview,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to add image" });
   }
 });
 
