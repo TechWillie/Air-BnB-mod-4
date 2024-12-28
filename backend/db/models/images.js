@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Images.init({
+  Image.init({
     url: DataTypes.STRING,
     preview: DataTypes.STRING
   }, {

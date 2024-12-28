@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 // Imports from the class
-const { Spot, Image } = require('../../db/models');
+const { Spot, Image, Review, User } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 const { validationResult, body } = require('express-validator');
@@ -205,11 +205,12 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 });
 
-// Get all spots owned by the current user
+//! Get all spots owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
   try {
-    // Get spots owned by the authenticated user
+    // Fetch spots from the Spot table and asve to a variable
     const spots = await Spot.findAll({
+      // Make sure owned by the authenticated user
       where: {
         ownerId: req.user.id,  // Ensure spots belong to the current user
       },
@@ -218,8 +219,9 @@ router.get('/current', requireAuth, async (req, res) => {
         {
           model: Image,
           attributes: ['url', 'preview'],
-          where: { preview: true }, // Only the preview image
-          required: false, // Not all spots may have a preview image
+          where: { preview: true }, 
+          // Not all spots may have a preview image
+          required: false, 
         },
       ],
       attributes: [
@@ -239,14 +241,19 @@ router.get('/current', requireAuth, async (req, res) => {
       ],
     });
 
-    // If no spots found, return an empty array
+    // If no spots found, return 404 error message
     if (!spots.length) {
       return res.status(404).json({ message: "No spots found for the current user" });
     }
 
     // Format the response to include previewImage
+    // Map through the spots array you created. 
     const spotData = spots.map(spot => {
-      const previewImage = spot.Images.length > 0 ? spot.Images[0].url : null; // Take first preview image
+    // For each spot, check if the spot has any images...
+    const previewImage = spot.Images.length > 0 
+    // if so, set the previewImage to the URL of the first image.
+    ? spot.Images[0].url : null; // Take first preview image
+    //  If there are no images, you're setting previewImage to null.
 
       return {
         id: spot.id,
@@ -270,6 +277,83 @@ router.get('/current', requireAuth, async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Failed to fetch spots" });
+  }
+});
+
+// ! Get details for a spot from an id..
+// Define the route to get a spot by ID
+app.get('/spots/:id', async (req, res) => {
+  try {
+    // Get the spot ID from the URL params.. Destructured
+    const {id} = req.params;
+
+    // Fetch the spot model by its ID, 
+    // Save to a variable
+    const spot = await Spot.findByPk(id, {
+      // including related data (Images, User, and Reviews)
+      include: [
+        {
+          model: Image,
+          // Only include relevant fields from Image
+          attributes: ['id', 'url', 'preview'], 
+        },
+        {
+          // Assuming the User model is related to Spot as the owner
+          model: User, 
+          // Include relevant user info
+          attributes: ['id', 'firstName', 'lastName'], 
+        },
+        {
+          // Include Review model to aggregate data
+          model: Review, 
+          // No need to return reviews themselves here
+          attributes: [] 
+        },
+      ],
+    });
+
+    // Check if the spot exists
+    if (!spot) {
+      // If not, return error message 404
+      return res.status(404).json({ message: 'Spot not found' });
+    }
+
+    // Calculate review data: count and average star rating
+    const numReviews = await Review.count({ where: { spotId: id } });
+
+    const avgStarRating = numReviews > 0 
+      // {spotId: id} => id from params!!
+      ? await Review.avg('rating', { where: { spotId: id } }) 
+      // Return null if no reviews exist
+      : null; 
+
+    // Prepare the response data
+    const spotData = {
+      id: spot.id,
+      ownerId: spot.userId, // Assuming owner ID is stored as `userId` in the Spot table
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      numReviews, // Lazy load above
+      avgStarRating, // Lazy load above
+      Images: spot.Image, // Associated Images data
+      Owner: spot.User, // Associated Owner (User) data
+    };
+
+    // Return the spot data as a JSON response
+    return res.json(spotData);
+  } catch (error) {
+    // Handle any errors
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
 

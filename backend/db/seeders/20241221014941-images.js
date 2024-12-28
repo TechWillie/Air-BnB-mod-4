@@ -1,10 +1,10 @@
 'use strict';
 
-const {Images} = require('../models')
+const {Image} = require('../models')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Images.bulkCreate([
+    await Image.bulkCreate([
           {
             url: "www.pic.cpm",
             preview: "hello"
