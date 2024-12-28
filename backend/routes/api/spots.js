@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 // Imports from the class
-const { Spot, Images } = require('../../db/models');
+const { Spot, Image } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
 const { validationResult, body } = require('express-validator');
@@ -13,7 +13,8 @@ router.get('/', async (req, res) => {
     //Fetch from the database
     const spots = await Spot.findAll();
 
-    // Map over the spots and format the response
+    // Map over all the spots in the table and customize the response
+    // Save to a variable..
     const spotsList = spots.map((spot) => ({
       id: spot.id,
       ownerId: spot.ownerId,
@@ -35,12 +36,15 @@ router.get('/', async (req, res) => {
     // Return the spots in the response
     return res.status(200).json(spotsList);
   } catch (error) {
+    // If any errors.. Log the error
     console.error(error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
-// Validation for Spot fields
+//! Create a new spot
+
+// Validation for new spot fields
 const spotValidationRules = [
   body('address').notEmpty().withMessage('Address is required'),
   body('city').notEmpty().withMessage('City is required'),
@@ -53,17 +57,22 @@ const spotValidationRules = [
   body('price').isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
 ];
 
-//! Create a new spot
 router.post('/', requireAuth, spotValidationRules, async (req, res) => {
-  // Check for validation errors
+  // First: Check for validation errors
   const errors = validationResult(req);
+  // If the errors object is NOT empty.. 
   if (!errors.isEmpty()) {
+    // Error 40 is for "Bad Request"
+    // Return the 400 status and the errors from validateResults as an array
     return res.status(400).json({ errors: errors.array() });
   }
 
+  // Second: Destructure all the neccessary attributes from the request body 
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
-  const ownerId = req.user.id; // Assuming the user is authenticated and `req.user` has the user info
-
+  // Save the request user id as the  NEW owner id  
+  // Assuming the user is authenticated
+  const ownerId = req.user.id; 
+  // Third: Now create the spot 
   try {
     const newSpot = await Spot.create({
       ownerId,
@@ -78,6 +87,7 @@ router.post('/', requireAuth, spotValidationRules, async (req, res) => {
       price,
     });
 
+    // return res.status(201).json({newSpot})
     return res.status(201).json({
       id: newSpot.id,
       ownerId: newSpot.ownerId,
@@ -145,5 +155,56 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     return res.status(500).json({ error: "Failed to add image" });
   }
 });
+
+//! Add an image to a spot based on the spots id
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  const { spotId } = req.params;
+  const { url, preview } = req.body;
+
+  // Validate input data
+  if (!url || !preview) {
+    return res.status(400).json({
+      error: "Image URL and preview are required"
+    });
+  }
+
+  try {
+    // Find the spot by its ID
+    const spot = await Spot.findByPk(spotId);
+
+    // If spot does not exist, return 404 error
+    if (!spot) {
+      return res.status(404).json({
+        error: "Spot not found"
+      });
+    }
+
+    // Check if the authenticated user is the owner of the spot
+    if (spot.ownerId !== req.user.id) {
+      return res.status(403).json({
+        error: "You are not authorized to add an image to this spot"
+      });
+    }
+
+    // Create a new image and associate it with the spot
+    const newImage = await Image.create({
+      spotId: spot.id,
+      url,
+      preview,
+    });
+
+    // Return the newly created image data
+    return res.status(201).json({
+      id: newImage.id,
+      url: newImage.url,
+      preview: newImage.preview,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to add image" });
+  }
+});
+
+
 
 module.exports = router;
