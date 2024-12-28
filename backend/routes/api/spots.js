@@ -205,6 +205,72 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 });
 
+// Get all spots owned by the current user
+router.get('/current', requireAuth, async (req, res) => {
+  try {
+    // Get spots owned by the authenticated user
+    const spots = await Spot.findAll({
+      where: {
+        ownerId: req.user.id,  // Ensure spots belong to the current user
+      },
+      include: [
+        // Include images to get the preview image
+        {
+          model: Image,
+          attributes: ['url', 'preview'],
+          where: { preview: true }, // Only the preview image
+          required: false, // Not all spots may have a preview image
+        },
+      ],
+      attributes: [
+        'id',
+        'ownerId',
+        'address',
+        'city',
+        'state',
+        'country',
+        'lat',
+        'lng',
+        'name',
+        'description',
+        'price',
+        'createdAt',
+        'updatedAt',
+      ],
+    });
 
+    // If no spots found, return an empty array
+    if (!spots.length) {
+      return res.status(404).json({ message: "No spots found for the current user" });
+    }
+
+    // Format the response to include previewImage
+    const spotData = spots.map(spot => {
+      const previewImage = spot.Images.length > 0 ? spot.Images[0].url : null; // Take first preview image
+
+      return {
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        createdAt: spot.createdAt,
+        updatedAt: spot.updatedAt,
+        previewImage, // Add previewImage field
+      };
+    });
+
+    return res.json(spotData);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Failed to fetch spots" });
+  }
+});
 
 module.exports = router;
