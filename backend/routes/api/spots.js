@@ -1,7 +1,7 @@
 // backend/routes/api/spots.js
 const express = require('express');
 const router = express.Router();
-// Imports from the class
+// Imports from the model class
 const { Spot, Image, Review, User } = require('../../db/models');
 
 const { requireAuth } = require('../../utils/auth');
@@ -354,6 +354,88 @@ app.get('/spots/:id', async (req, res) => {
     // Handle any errors
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// ! EDIT/Update a spot
+// save Validates for spot attributes aas array:
+const validateSpot = [
+  body('address').isString().notEmpty().withMessage('Address is required'),
+  body('city').isString().notEmpty().withMessage('City is required'),
+  body('state').isString().notEmpty().withMessage('State is required'),
+  body('country').isString().notEmpty().withMessage('Country is required'),
+  body('lat').isDecimal().withMessage('Latitude must be a number'),
+  body('lng').isDecimal().withMessage('Longitude must be a number'),
+  body('name').isString().notEmpty().withMessage('Name is required'),
+  body('description').isString().notEmpty().withMessage('Description is required'),
+  body('price').isDecimal().withMessage('Price must be a number'),
+];
+
+// Edit a Spot
+router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
+  const errors = validationResult(req);
+
+  // If validation errors are NOT empty.. Errors exist..
+  if (!errors.isEmpty()) {
+    // Return 400 "Bad Request: Due to client error"
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  }
+  // Destructure the spotId from req.params 
+  const { spotId } = req.params;
+  // && attributes from req.body
+  const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+  try {
+    // Find the spot by ID (The primary key)
+    const spot = await Spot.findByPk(spotId);
+    // If the spot does not exist...
+    if (!spot) {
+      // return a 404 error "Page not found".
+      return res.status(404).json({ message: "Spot not found" });
+    }
+
+    // Check if the current user is the owner of the spot
+    // If NOT: ( !== )...
+    if (spot.ownerId !== req.user.id) {
+      // return error.status 403 "Forbiddin: Unable to grant access"
+      return res.status(403).json({ message: "You are not the owner of this spot" });
+    }
+    // If NO ERRORS..
+    // Update the spot with new data, Overridding existing data
+    spot.address = address;
+    spot.city = city;
+    spot.state = state;
+    spot.country = country;
+    spot.lat = lat;
+    spot.lng = lng;
+    spot.name = name;
+    spot.description = description;
+    spot.price = price;
+
+    // SAVE() the updated spot in the database
+    await spot.save();
+
+    // Return the updated spot data
+    return res.json({
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Failed to update the spot" });
   }
 });
 
