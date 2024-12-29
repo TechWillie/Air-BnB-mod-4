@@ -132,6 +132,64 @@ router.get('/', requireAuth, async (req, res) => {
     }
   });
 
+// ! Get all Bookings for a Spot based on the Spot's id
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+    const {spotId} = req.params;
+    const userId = req.user.id;
+    try {
+      // if spot exists
+      const spot = await Spot.findByPk(spotId);
+      if (!spot) {
+        return res.status(404).json({ message: 'Spot not found' });
+      }
+  
+      // current user is owner of spot?
+      const isOwner = spot.ownerId === userId;
+  
+      // Get the bookings for the spot
+      const bookings = await Booking.findAll({
+        where: {
+          spotId: spotId,
+        },
+        include: isOwner
+          ? [
+              {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName'],
+              },
+            ] : [],
+      });
+  
+      if (!bookings || bookings.length === 0){
+        return res.status(404).json({ message:'No bookings found for this spot'});
+      }
+      // Respond with booking attributes
+      const bookingsData = bookings.map((booking) => {
+        const bookingData = {
+          spotId: booking.spotId,
+          startDate: booking.startDate,
+          endDate: booking.endDate,
+        };
+  
+        if (isOwner) {
+          // If the user is the owner, include more details
+          bookingData.id = booking.id;
+          bookingData.userId = booking.userId;
+          bookingData.createdAt = booking.createdAt;
+          bookingData.updatedAt = booking.updatedAt;
+          bookingData.user = booking.User; // Associated user data
+        }
+  
+        return bookingData;
+      });
+  
+      return res.json({ bookings: bookingsData });
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  });
   
 
 
