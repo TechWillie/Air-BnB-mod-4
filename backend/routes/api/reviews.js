@@ -1,5 +1,5 @@
 const express = require('express');
-const { Review, Spot, Image } = require('../../db/models');
+const { Review, Spot, Image, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validationResult, body } = require('express-validator');
 const router = express.Router();
@@ -130,5 +130,41 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   }
 });
 
+// ! Get all Reviews of the Current User
+// GET all Reviews by Current User
+router.get('/current', requireAuth, async (req, res) => {
+    try {
+      // Find all reviews by current user
+      const reviews = await Review.findAll({
+        // Make sure it's correct users review 
+        where: { userId: req.user.id },
+        // Include User (firstName, lastName)
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName'], 
+          },
+          // Include Spot attributes
+          {
+            model: Spot,
+            attributes: [
+              'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price', 'previewImage'
+            ], 
+          },
+          // Include ReviewImages
+          {
+            model: Image,
+            attributes: ['id', 'url'], 
+          }
+        ],
+      });
+  
+      // Return the reviews with the  data
+      return res.status(200).json(reviews);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Failed to fetch reviews' });
+    }
+  });
 
 module.exports = router;
