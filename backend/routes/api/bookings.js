@@ -1,6 +1,7 @@
 const express = require('express');
 const {Booking, Spot, User} = require('../../db/models');
 const {requireAuth} = require('../../utils/auth');
+const { Op } = require('sequelize'); // To compare dates
 const {check, validationResult} = require('express-validator');
 const router = express.Router();
 
@@ -191,6 +192,73 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     }
   });
   
-
+// ! Edit a booking
+router.put('/:bookingId', requireAuth, async (req, res) => {
+    const {bookingId} = req.params;
+    const {startDate, endDate} = req.body;
+    const userId = req.user.id;
+  
+    try {
+      // if booking exist?
+      const booking = await Booking.findByPk(bookingId);
+      if(!booking){
+        return res.status(404).json({ message: 'Booking not found' });
+      }
+  
+      // Is user the owner of the booking?
+      if(booking.userId !== userId){
+        return res.status(403).json({message: 'Forbidden: You are not the owner of this booking'});
+      }
+  
+      // startDate cannot be before today
+      if (new Date(startDate) < new Date()){
+        return res.status(400).json({message: 'Start date cannot be in the past'});
+      }
+  
+      // endDate is after the startDate?
+      if(new Date(startDate) >= new Date(endDate)){
+        return res.status(400).json({ message: 'Start date must be before the end date' });
+      }
+  
+      // conflicting bookings for the same spot and dates?
+      const spotId = booking.spotId;
+      const compareBookings = await Booking.findAll({
+        where: {
+          spotId: spotId,
+          // Exclude the current booking
+          id: { [Op.ne]: bookingId }, 
+          [Op.or]: [
+            {
+              startDate: {[Op.lte]: new Date(endDate)},
+              endDate: {[Op.gte]: new Date(startDate)},
+            },
+          ],
+        },
+      });
+  
+      if (compareBookings.length > 0) {
+        return res.status(403).json({ message: 'There is already a booking for this spot on the selected dates' });
+      }
+  
+      // Update the booking with new dates
+      booking.startDate = new Date(startDate);
+      booking.endDate = new Date(endDate);
+      await booking.save();
+  
+      // Return the updated booking
+      return res.json({
+        id: booking.id,
+        userId: booking.userId,
+        spotId: booking.spotId,
+        startDate: booking.startDate,
+        endDate: booking.endDate,
+        createdAt: booking.createdAt,
+        updatedAt: booking.updatedAt,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 
 module.exports = router;
