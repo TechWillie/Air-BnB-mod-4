@@ -282,7 +282,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // ! Get details for a spot from an id..
 // Define the route to get a spot by ID
-app.get('/spots/:id', async (req, res) => {
+router.get('/spots/:id', async (req, res) => {
   try {
     // Get the spot ID from the URL params.. Destructured
     const {id} = req.params;

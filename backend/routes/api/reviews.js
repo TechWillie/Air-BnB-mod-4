@@ -1,9 +1,11 @@
 const express = require('express');
-const { Review, Spot } = require('../../db/models');
+const { Review, Spot, Image } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validationResult, body } = require('express-validator');
 const router = express.Router();
 
+
+// !Create a Review for a Spot based on the Spot's id
 // Validation for review attributes
 const validateReview = [
   body('review').isString().notEmpty().withMessage('Review text is required'),
@@ -13,20 +15,21 @@ const validateReview = [
 // Create Review for a Spot
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
     // Destructure
-  const { spotId } = req.params;
-  const { review, stars } = req.body;
+  const {spotId} = req.params;
+  const {review, stars} = req.body;
 // check for errors
   const errors = validationResult(req);
 
-  // If validation errors exist
-  if (!errors.isEmpty()) {
+  // If errors exist
+  if (!errors.isEmpty()){
+    // Status 400
     return res.status(400).json({
       errors: errors.array(),
     });
   }
 
   try {
-    // Check if the spot exists
+    // Check if the spot exists by its id (Primary key)
     const spot = await Spot.findByPk(spotId);
 
     // If the spot does NOT exist, return 404 error
@@ -71,5 +74,61 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     return res.status(500).json({ message: 'Failed to create the review' });
   }
 });
+
+// ! Ad an image to a review based on the spots id
+// Maximum number of images per review (you can adjust this based on your needs)
+const MAX_IMAGES = 7;
+
+// First create the route
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+    // Destructure
+  const { reviewId } = req.params;
+  const { url } = req.body;
+
+  try {
+    // Does review exists
+    const review = await Review.findByPk(reviewId);
+
+    // If not, return a 404 error
+    if (!review){
+      return res.status(404).json({ message: 'Review not found' });
+    }
+
+    // Is the current user the owner of the review
+    if (review.userId !== req.user.id){
+        // If not.. error 403 
+      return res.status(403).json({ message: 'You are not the owner of this review' });
+    }
+
+    // Check how many images are already inthe review
+    const existingImages = await Image.findAll({
+      where: {
+        reviewId: reviewId,
+      },
+    });
+
+    // If review has max images...
+    if (existingImages.length >= MAX_IMAGES) {
+        //  return a 403 error
+      return res.status(403).json({ message: 'Maximum number of images reached for this review' });
+    }
+    // Finally ...
+    // Create the new image for review
+    const newImage = await Image.create({
+      reviewId,
+      url,
+    });
+
+    // Return the new image attributes
+    return res.status(201).json({
+      id: newImage.id,
+      url: newImage.url,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to add image to the review' });
+  }
+});
+
 
 module.exports = router;
