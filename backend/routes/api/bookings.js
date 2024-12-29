@@ -58,7 +58,7 @@ router.post('/:spotId', requireAuth, [
     // If booking already exist.. 
     if (existingBooking) {
         // return error
-      return res.status(403).json({ message: 'Booking already exists for these dates' });
+      return res.status(403).json({ message: 'Booking already exists for these dates'});
     }
     // Create new booking
     const newBooking = await Booking.create({
@@ -72,8 +72,67 @@ router.post('/:spotId', requireAuth, [
     return res.status(201).json(newBooking);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Failed to create the booking' });
+    return res.status(500).json({ message: 'Failed to create the booking'});
   }
 });
+
+// ! Get all of the Current User's Bookings
+router.get('/', requireAuth, async (req, res) => {
+    try {
+      const userId = req.user.id;
+      // Find all bookings by current user
+      const bookings = await Booking.findAll({
+          // Only fetch bookings for the current user
+        where: {
+          userId: userId, 
+        },
+        // Include associated Spot attributes
+        include: [
+          {
+            model: Spot, 
+            attributes: [
+              'id',
+              'ownerId',
+              'address',
+              'city',
+              'state',
+              'country',
+              'lat',
+              'lng',
+              'name',
+              'price',
+              'previewImage',
+            ],
+          },
+        ],
+      });
+    //    Does bookings exist
+      if (!bookings || bookings.length === 0){
+        return res.status(404).json({message: 'No bookings found for this user'});
+      }
+  
+      // Respond with booking attributes
+      const bookingsData = bookings.map((booking) => {
+        return {
+          id: booking.id,
+          spotId: booking.spotId,
+          userId: booking.userId,
+          startDate: booking.startDate,
+          endDate: booking.endDate,
+          createdAt: booking.createdAt,
+          updatedAt: booking.updatedAt,
+          // Returning the associated Spot data
+          spot: booking.Spot, 
+        };
+      });
+      return res.json({bookings: bookingsData});
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({message: 'Internal server error'});
+    }
+  });
+
+  
+
 
 module.exports = router;
