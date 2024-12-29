@@ -1,7 +1,7 @@
 const express = require('express');
 const { Review, Spot, Image, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-const { validationResult, body } = require('express-validator');
+const { validationResult, check, body } = require('express-validator');
 const router = express.Router();
 
 
@@ -169,7 +169,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // ! Get all Reviews by a Spot's id
 router.get('/:spotId', async (req, res) => {
-    const { spotId } = req.params;
+    const {spotId} = req.params;
   
     try{
       const spot = await Spot.findByPk(spotId);
@@ -200,6 +200,49 @@ router.get('/:spotId', async (req, res) => {
     }
   });
 
-
+//   ! EDIT a review
+// Edit a Review
+router.put('/:reviewId', requireAuth, [
+    // Validate: review and stars
+    check('review').isLength({ min: 1 }).withMessage('Review text is required'),
+    check('stars').isInt({ min: 1, max: 5 }).withMessage('Stars must be between 1 and 5'),
+  ],
+   async (req, res) => {
+    const {reviewId} = req.params;
+    const {review, stars} = req.body;
+    
+    // validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
+    }
   
+    try {
+      // Find the specific review by its ID
+      const reviewToUpdate = await Review.findByPk(reviewId);
+  
+      // Does the review exist
+      if (!reviewToUpdate){
+        return res.status(404).json({message: 'Review not found' });
+      }
+  
+      // Check if the current user is the owner of the review
+      if (reviewToUpdate.userId !== req.user.id) {
+        return res.status(403).json({ message: 'You can only edit your own reviews' });
+      }
+  
+      // Update review in database
+      reviewToUpdate.review = review;
+      reviewToUpdate.stars = stars;
+      await reviewToUpdate.save();
+  
+      // Return the updated review data
+      return res.status(200).json(reviewToUpdate);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Failed to update the review' });
+    }
+  });
+
+
 module.exports = router;
