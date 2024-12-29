@@ -244,5 +244,26 @@ router.put('/:reviewId', requireAuth, [
     }
   });
 
+//   ! Delete a review
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+    const {reviewId} = req.params;
+  
+    try{
+      const reviewToDelete = await Review.findByPk(reviewId);
+      if (!reviewToDelete){
+        return res.status(404).json({message: 'Review not found'});
+      }
+      if (reviewToDelete.userId !== req.user.id) {
+        return res.status(403).json({ message: 'You can only delete your own reviews' });
+      }
+      // Delete the review from the database
+      await reviewToDelete.destroy();
+      // Return success message
+      return res.status(200).json({ message: 'Review successfully deleted' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Failed to delete the review' });
+    }
+  });
 
 module.exports = router;
