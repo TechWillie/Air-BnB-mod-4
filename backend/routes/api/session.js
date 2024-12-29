@@ -26,7 +26,6 @@ const validateLogin = [
   ];
 
 
-
 //! ***** Log in
 router.post(
     '/', 
