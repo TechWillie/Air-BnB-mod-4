@@ -261,4 +261,38 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     }
   });
 
+// ! DELETE a booking
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+    const {bookingId} = req.params;
+    const userId = req.user.id;
+  
+    try {
+      // booking exist?
+      const booking = await Booking.findByPk(bookingId);
+      if (!booking){
+        return res.status(404).json({ message: 'Booking not found' });
+      }
+  
+      // Is user the owner of the booking AND the owner of the spot
+      const spot = await Spot.findByPk(booking.spotId);
+      if(booking.userId !== userId && spot.ownerId !== userId){
+        return res.status(403).json({ message: 'Forbidden: Not authorized to delete this booking' });
+      }
+  
+      // start date has passed?
+      if(new Date(booking.startDate) < new Date()){
+        return res.status(400).json({ message: 'Cannot delete past or current bookings' });
+      }
+  
+      // Delete the booking
+      await booking.destroy();
+      // Return success message
+      return res.json({ message: 'Booking successfully deleted' });
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
 module.exports = router;
