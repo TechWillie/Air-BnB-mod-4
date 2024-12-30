@@ -473,4 +473,96 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
   }
 });
 
+// ! Query filters to get all spots
+
+// Helper function: pagination and validation
+const validate = (query) => {
+  // create an array for error messages to go if neccessary
+  const errors = [];
+  // Valid page and size params
+  // https://localhost:8000./api/page?param1=value1&param2=value2
+  // If a query parameter exists in url AND is not a number... 
+  if(query.page && isNaN(query.page)){
+    // Push the error message accoiated with the error
+     errors.push('Page must be a number');}
+  if(query.size && isNaN(query.size)) errors.push('Size must be a number');
+
+  // Valid lat and lng range
+  if(query.minLat && isNaN(query.minLat)) errors.push('minLat must be a number');
+  if(query.maxLat && isNaN(query.maxLat)) errors.push('maxLat must be a number');
+  if(query.minLng && isNaN(query.minLng)) errors.push('minLng must be a number');
+  if(query.maxLng && isNaN(query.maxLng)) errors.push('maxLng must be a number');
+
+  // Valid price range
+  if(query.minPrice && isNaN(query.minPrice)) errors.push('minPrice must be a number');
+  if(query.maxPrice && isNaN(query.maxPrice)) errors.push('maxPrice must be a number');
+
+  return errors;
+};
+
+// GET /api/spots...
+router.get('/', async (req, res) =>{
+  // Desturcture
+  const {
+    // Give page and size defaults
+    page = 1, size = 10, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
+
+  // Validate query parameters
+  const errors = validate(req.query);
+  if(errors.length > 0){
+    return res.status(400).json({errors});
+  }
+
+  // Create query filters object
+  const filters = {};
+  // If values exist for the rest of the queries..
+  // (minLat, maxLat, minLng, maxLng, minPrice, maxPrice)
+  // 
+  if (minLat !== undefined && maxLat !== undefined) {
+    filters.lat = 
+    // The operator [Op.between] is being used to express this condition in a Sequelize query
+    // ? in SQL: lat BETWEEN minLat AND maxLat
+    { [Op.between]: [parseFloat(minLat), parseFloat(maxLat)] };
+  }
+  if (minLng !== undefined && maxLng !== undefined) {
+    filters.lng = { [Op.between]: [parseFloat(minLng), parseFloat(maxLng)] };
+  }
+  if (minPrice !== undefined && maxPrice !== undefined) {
+    filters.price = { [Op.between]: [parseFloat(minPrice), parseFloat(maxPrice)] };
+  }
+
+  try {
+    // Calculate pagination limits
+    // limit: This defines how many records you want to fetch per page...
+    // The value is parsed from the query parameter size, which should be a "string"...
+    // Convert it to an integer using parseInt(size, 10)...
+    //  The second argument, 10, is the radix... 
+    // radix specifies that the string should be parsed as a base-10 integer.
+    // the LIMIT is how many entries to post
+    const limit = parseInt(size, 10);
+    // the OFFSET is how many entries to skip
+    const offset = (parseInt(page, 10) - 1) * limit;
+
+    // Query (SEARCH) the spots with filters, limit, and offset
+    const spots = await Spot.findAll({
+      where: filters,
+      limit: limit,
+      offset: offset,
+      attributes: [
+        'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'previewImage'
+      ]
+    });
+
+    // Return... spots and pagination results
+    return res.json({
+      spots,
+      page: parseInt(page, 10),
+      size: limit
+    });
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({message: 'Internal server error'});
+  }
+});
+
 module.exports = router;
