@@ -11,8 +11,11 @@ const { validationResult, body } = require('express-validator');
 router.get('/', async (req, res) => {
   try {
     //Fetch from the database
-    const spots = await Spot.findAll();
-
+    const spots = await Spot.findAll({
+      include: [{model: Review}]
+    });
+    // console.log(spots);
+    
     // Map over all the spots in the table and customize the response
     // Save to a variable..
     const spotsList = spots.map((spot) => ({
@@ -30,7 +33,12 @@ router.get('/', async (req, res) => {
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt,
       previewImage: spot.previewImage,
-      avgRating: spot.avgRating,
+      avgRating: spot.dataValues.Reviews.reduce((accum, review) => {
+        // console.log(review.stars);
+        accum += review.stars
+        // console.log(accum);
+        return accum
+      }, 0 )/ spot.dataValues.Reviews.length,
     }));
 
     // Return the spots in the response
@@ -219,7 +227,7 @@ router.get('/current', requireAuth, async (req, res) => {
         {
           model: Image,
           attributes: ['url', 'preview'],
-          where: { preview: true }, 
+          // where: { preview: true }, 
           // Not all spots may have a preview image
           required: false, 
         },
