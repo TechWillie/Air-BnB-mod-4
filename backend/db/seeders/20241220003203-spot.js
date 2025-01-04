@@ -10,7 +10,8 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
     await Spot.bulkCreate([
-      {ownerId: 1,
+      {
+        ownerId: 1,
         address: '123 drive court',
         city: "Smyrna",
         state: "Georgia",
@@ -21,7 +22,8 @@ module.exports = {
         description: "Not your ordinary store...",
         price: 234
       },
-      {ownerId: 2,
+      {
+        ownerId: 2,
         address: '123 dve court',
         city: "Smyruuua",
         state: "Geoa",
@@ -31,7 +33,33 @@ module.exports = {
         name: "Cornre shop",
         description: "Not your  store...",
         price: 34
-      }], {validate: true});
+      },
+      {
+        ownerId: 3,
+        address: '123 drive court',
+        city: "Smyrna",
+        state: "Georgia",
+        country: "United Kingdom",
+        lat: 3123,
+        lng: 2345,
+        name: "Cornre Store",
+        description: "Not your ordinary store...",
+        price: 234
+      },
+      {
+        ownerId: 4,
+        address: '123 dve court',
+        city: "Smyruuua",
+        state: "Geoa",
+        country: "United states",
+        lat: 3123,
+        lng: 2345,
+        name: "Cornre shop",
+        description: "Not your  store...",
+        price: 34
+      }
+    ],
+       {validate: true});
     },
     async down(queryInterface, Sequelize) {
       // Delete the inserted spot record in case of rollback

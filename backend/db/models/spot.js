@@ -9,6 +9,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Spot.belongsTo(models.User, {
+        foreignKey: "ownerId",
+        as: "owner"
+      })
+
+      Spot.hasMany(models.Image, {
+        foreignKey: "id"
+      })
+
+      Spot.hasMany(models.Review, {
+        foreignKey: "spotId"
+      })
+
     }
   }
   Spot.init(
@@ -16,7 +29,11 @@ module.exports = (sequelize, DataTypes) => {
         ownerId:{
           type: DataTypes.INTEGER,
           allowNull: false,
-          
+          foreignKey: true,
+          references: {
+            model: "User",
+            key: "id"
+          }
         },
         address:{
           type: DataTypes.STRING,
@@ -51,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         lat:{
-          type: DataTypes.INTEGER,
+          type: DataTypes.FLOAT,
           allowNull: false,
           unique: false,
           validate: {
@@ -59,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         lng:{
-          type: DataTypes.INTEGER,
+          type: DataTypes.FLOAT,
           allowNull: false,
           unique: false,
           validate: {
@@ -83,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         price:{
-          type: DataTypes.INTEGER,
+          type: DataTypes.FLOAT,
           allowNull: false,
           unique: false,
           validate: {
