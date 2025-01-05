@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: true,
         references: {
           model: "Spot",
-          key: "id"
+          key: "ownerId"
         },
     },
     spot:{

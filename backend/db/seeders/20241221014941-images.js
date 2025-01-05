@@ -18,10 +18,18 @@ module.exports = {
     
       async down (queryInterface, Sequelize) {
        // Delete the inserted review record in case of rollback
-       options.tableName = 'Images';
+      //  options.tableName = 'Images';
        const Op = Sequelize.Op;
-       await queryInterface.bulkDelete(options, {
-         url: {[Op.in]:[ "www.pic.cpm", "www.picture.cpm"]}
-       }, {});
-     }
-    };
+       await queryInterface.bulkDelete(
+        'Images', // The table name
+        {
+          url: {
+            [Op.in]: [
+              "https://www.pic.com",           // Existing URL
+              "https://www.picture.com",       // Existing URL
+            ]
+          }
+        },
+        {} // No need for additional options here
+      );
+    }}
