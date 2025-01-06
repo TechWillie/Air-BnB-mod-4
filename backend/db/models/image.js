@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Image.belongsTo(models.Spot, {
-        foreignKey: "ownerId"
-      })
+      // Image.belongsTo(models.Spot, {
+      //   foreignKey: "ownerId"
+      // })
     }
   }
   Image.init({
