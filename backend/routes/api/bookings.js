@@ -137,6 +137,9 @@ router.get('/', requireAuth, async (req, res) => {
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     const {spotId} = req.params;
     const userId = req.user.id;
+    res.send("this a route")
+    console.log(spotId, userId);
+    
     try {
       // if spot exists
       const spot = await Spot.findByPk(spotId);
