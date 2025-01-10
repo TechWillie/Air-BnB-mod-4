@@ -1,35 +1,38 @@
 'use strict';
 
-const {Image} = require('../models')
-/** @type {import('sequelize-cli').Migration} */
+const { Image } = require('../models');
+
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await Image.bulkCreate([
-          {
-            url: "www.pic.cpm",
-            preview: "hello"
-          },
-          {
-            url: "www.picture.cpm",
-            preview: "hello to you"
-          }
-        ], {validate: true})
+      {
+        url: "https://example.com/image1.jpg",
+        preview: true,
+        spotId: 1
       },
-    
-      async down (queryInterface, Sequelize) {
-       // Delete the inserted review record in case of rollback
-      //  options.tableName = 'Images';
-       const Op = Sequelize.Op;
-       await queryInterface.bulkDelete(
-        'Images', // The table name
-        {
-          url: {
-            [Op.in]: [
-              "https://www.pic.com",           // Existing URL
-              "https://www.picture.com",       // Existing URL
-            ]
-          }
-        },
-        {} // No need for additional options here
-      );
-    }}
+      {
+        url: "https://example.com/image2.jpg",
+        preview: false,
+        spotId: 1
+      },
+      {
+        url: "https://example.com/review1.jpg",
+        preview: false,
+        reviewId: 1
+      }
+    ], { validate: true });
+  },
+
+  async down(queryInterface, Sequelize) {
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete('Images', {
+      url: {
+        [Op.in]: [
+          "https://example.com/image1.jpg",
+          "https://example.com/image2.jpg",
+          "https://example.com/review1.jpg"
+        ]
+      }
+    }, {});
+  }
+};
