@@ -12,12 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Image.belongsTo(models.Spot, {
-        foreignKey: "ownerId"
-      })
+        foreignKey: 'imageableId',
+        constraints: false,
+        scope: {
+          imageableType: 'spot'
+        }
+      });
 
       Image.belongsTo(models.Review, {
-        foreignKey: "userId"
-      })
+        foreignKey: 'imageableId',
+        constraints: false,
+        scope: {
+          imageableType: 'review'
+        }
+      });
     }
   }
   Image.init({

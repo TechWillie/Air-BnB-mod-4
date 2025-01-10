@@ -29,6 +29,14 @@ module.exports = {
           key: 'id'
         }
       },
+      imageableId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      imageableType: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       reviewId: {
         type: Sequelize.INTEGER,
         references: {
