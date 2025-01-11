@@ -29,6 +29,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Image.init({
+    imageableId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    imageableType: {
+      type: DataTypes.STRING,
+      allowNull: false
+  },
+  spotId: {
+    type: DataTypes.INTEGER
+  },
+  reviewId: {
+      type: DataTypes.INTEGER
+  },
     url: DataTypes.STRING,
     preview: DataTypes.STRING
   }, {
