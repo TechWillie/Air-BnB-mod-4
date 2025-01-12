@@ -23,11 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Spot.hasMany(models.Review, {
-        foreignKey: 'imageableId',
-        constraints: false,
-        scope: {
-          imageableType: 'review'
-        }
+        foreignKey: 'id',
       });
 
     }
