@@ -12,13 +12,17 @@ module.exports = {
     await Booking.bulkCreate([
       {
         spotId: 1,
+        userId: 1,
         spot: "Cumberland Mall",
-        userId: 2
+        startDate: "2025-02-01",
+        endDate: "2025-02-05"
       },
       {
         spotId: 2,
+        userId: 2,
         spot: "Twoncenter Mall",
-        userId: 1
+        startDate: "2025-02-01",
+        endDate: "2025-02-05"
       }
     ], {validate: true})
   },
