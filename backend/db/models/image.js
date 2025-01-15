@@ -11,24 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Image.belongsTo(models.Spot, {
-        foreignKey: 'imageableId',
-        constraints: false,
-        scope: {
-          imageableType: 'spot'
-        }
-      });
+      // Image.belongsTo(models.Spot, {
+      //   foreignKey: 'imageableId',
+      //   constraints: false,
+      //   scope: {
+      //     imageableType: 'spot'
+      //   }
+      // });
 
-      Image.belongsTo(models.Review, {
-        foreignKey: 'imageableId',
-        constraints: false,
-        scope: {
-          imageableType: 'review'
-        }
-      });
     }
   }
   Image.init({
+    id: {  // Explicitly define the primary key 'id'
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+      autoIncrement: true, // Automatically incrementing ID
+    },
     imageableId: {
       type: DataTypes.INTEGER,
       allowNull: false

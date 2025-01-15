@@ -33,33 +33,35 @@ module.exports = {
         lat: 3123,
         lng: 2345,
         name: "Cornre shop",
-        description: "Not your  store...",
+        description: "Not your fav store...",
         price: 34
       },
-      // {
-      //   ownerId: 3,
-      //   address: '123 drive court',
-      //   city: "Smyrna",
-      //   state: "Georgia",
-      //   country: "United Kingdom",
-      //   lat: 3123,
-      //   lng: 2345,
-      //   name: "Cornre Store",
-      //   description: "Not your ordinary store...",
-      //   price: 234
-      // },
-      // {
-      //   ownerId: 3,
-      //   address: '123 dve court',
-      //   city: "Smyruuua",
-      //   state: "Geoa",
-      //   country: "United states",
-      //   lat: 3123,
-      //   lng: 2345,
-      //   name: "Cornre shop",
-      //   description: "Not your  store...",
-      //   price: 34
-      // }
+      {
+        id: 3,
+        ownerId: 3,
+        address: '1243 drive court',
+        city: "Smyrna",
+        state: "Georgia",
+        country: "United Kingdom",
+        lat: 3123,
+        lng: 2345,
+        name: "Cornre Store",
+        description: "Not your ordinary store...",
+        price: 234
+      },
+      {
+        id: 4,
+        ownerId: 2,
+        address: '123 court st',
+        city: "Smyruuua",
+        state: "Geoa",
+        country: "United states",
+        lat: 3123,
+        lng: 2345,
+        name: "Cornre shop",
+        description: "Not your  store...",
+        price: 34
+      }
     ],
        {validate: true});
     },

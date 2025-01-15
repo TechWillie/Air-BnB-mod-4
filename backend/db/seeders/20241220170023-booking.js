@@ -11,6 +11,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Booking.bulkCreate([
       {
+        id: 1,
         spotId: 1,
         userId: 1,
         spot: "Cumberland Mall",
@@ -18,6 +19,7 @@ module.exports = {
         endDate: "2025-02-05"
       },
       {
+        id: 2,
         spotId: 2,
         userId: 2,
         spot: "Twoncenter Mall",

@@ -20,13 +20,21 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Review.hasMany(models.Image, {
-        foreignKey: 'reviewId',
-        onDelete: 'CASCADE'
+        foreignKey: 'imageableId',
+        constraints: false,
+        scope: {
+          imageableType: 'review'
+        }
       });
     }
   }
   Review.init(
     {
+      id: {  // Explicitly define the primary key 'id'
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+        autoIncrement: true, // Automatically incrementing ID
+      },
     userId:{
         type: DataTypes.INTEGER,
         // allowNull: false,
