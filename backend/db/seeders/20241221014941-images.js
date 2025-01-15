@@ -11,6 +11,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await Image.bulkCreate([
       {
+        id: 1,
         url: "https://example.com/spot1.jpg",
         preview: "true",
         spotId: 1,
@@ -18,6 +19,7 @@ module.exports = {
         imageableType: 'spot'
       },
       {
+        id: 2,
         url: "https://example.com/review1.jpg",
         preview: "false",
         reviewId: 1,
@@ -25,6 +27,7 @@ module.exports = {
         imageableType: 'review'
       },
       {
+        id: 3,
         url: "https://example.com/spot2.jpg",
         preview: "true",
         spotId: 2,
