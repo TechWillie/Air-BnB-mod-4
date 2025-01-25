@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Spot.belongsTo(models.User, {
         foreignKey: "ownerId",
-        as: "owner"
       })
 
       Spot.hasMany(models.Image, {
@@ -43,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
           }
         },
+        spotImage:{
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "Images",
+            key: "id"
+            }
+          },
         address:{
           type: DataTypes.STRING,
           allowNull: false,

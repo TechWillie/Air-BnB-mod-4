@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     const spots = await Spot.findAll({
       include: [{model: Review}]
     });
-    // console.log(spots);
+    console.log(spots);
     
     // Map over all the spots in the table and customize the response
     // Save to a variable..
@@ -166,6 +166,8 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 
 //! Add an image to a spot based on the spots id
 router.post('/:spotId/images', requireAuth, async (req, res) => {
+  console.log("this willie spot id for images");
+  
   const { spotId } = req.params;
   const { url, preview } = req.body;
 
@@ -290,10 +292,13 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // ! Get details for a spot from an id..
 // Define the route to get a spot by ID
-router.get('/spots/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
+  console.log(req.params);
   try {
     // Get the spot ID from the URL params.. Destructured
     const {id} = req.params;
+    console.log(id);
+    
 
     // Fetch the spot model by its ID, 
     // Save to a variable
@@ -379,7 +384,7 @@ const validateSpot = [
   body('price').isDecimal().withMessage('Price must be a number'),
 ];
 
-// Edit a Spot
+//! Edit a Spot
 router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
   const errors = validationResult(req);
 
@@ -508,7 +513,7 @@ const validate = (query) => {
   return errors;
 };
 
-// GET /api/spots...
+//! GET /api/spots...
 router.get('/', async (req, res) =>{
   // Desturcture
   const {

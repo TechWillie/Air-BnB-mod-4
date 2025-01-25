@@ -12,21 +12,29 @@ const { handleValidationErrors } = require('../../utils/validation');
 //  add the POST /api/users route to the router 
 // using an asynchronous route handler
 router.post('/',async (req, res) => {
+  console.log(`request body: ${Object.values(req.body)} == params: ${req.params}`);
+  
     // In the route handler, deconstruct the request body
-      const { email, password, username } = req.body;
+      const { email, password, username, firstName, lastName } = req.body;
+      console.log(firstName, lastName);
+      
     //   then use bcrypt's hashSync function to hash the user's provided password...
     const hashedPassword = bcrypt.hashSync(password);
     // ...to be saved as the user's hashedPassword in the database.
     // Create a new User in the database 
     // with the username and email from the request body 
     // and the hashedPassword generated from bcryptjs.
-      const user = await User.create({ email, username, hashedPassword });
+      const user = await User.create({ firstName, lastName, email, username, hashedPassword });
   
       const safeUser = {
         id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         username: user.username,
       };
+      console.log(safeUser);
+      
     //   Then, use setTokenCookie to log in the user by creating a JWT cookie 
     // with the user's non-sensitive information as its payload.
       await setTokenCookie(res, safeUser);

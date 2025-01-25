@@ -37,7 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       },
     userId:{
         type: DataTypes.INTEGER,
-        // allowNull: false,
+        references: {
+          model: "Users",
+          key: "id"
+        }
     },
     spotId:{
         type: DataTypes.INTEGER,

@@ -21,10 +21,15 @@ module.exports = {
         allowNull: false,
         unique: false,
       },
+      spotImage: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: false,
+      },
       address: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique:true
+        unique: true
       },
       city: {
         type: Sequelize.STRING,
@@ -54,12 +59,12 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false
+        unique: true
       },
       description: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: false
+        unique: true
       },
       price: {
         type: Sequelize.INTEGER,
