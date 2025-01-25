@@ -27,7 +27,7 @@ router.post('/',async (req, res) => {
       const user = await User.create({ firstName, lastName, email, username, hashedPassword });
   
       const safeUser = {
-        id: user.id,
+        // id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
