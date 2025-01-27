@@ -495,14 +495,16 @@ module.exports = {
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
       name: {[Op.in]: [
-        "Cornre Store", "Cornre shop", "Luxury Ocean Villa", "Ski Lodge Haven", 
-        "Desert Oasis", "Wine Country Cottage", "Urban Penthouse", "Treehouse Retreat",
-        "seven eleven", "Hair shop", "Horse stable", "Fast food", "The hangover",
-        "crudy creepy", "coffee pub", "Spa and such", "tiny Penthouse", 
-        "Coorperate Retreat", "Listen hard", "paper mill", "Zone for seniors",
-        "Bike bells", "bounce house", "Ski of jelly", "Desert Storm",
-        "Wine Country Juveniles", "Urban Borrow", "Treehouse basement",
-        "High rise 7 floors", "regular place", "Matilac room", "Brownsville"
+        "Cornre Store", "Cornre shop", "Study Lounge", "Mary holidays", 
+        "Luxury Ocean Villa", "Ski Lodge Haven", "Desert Oasis", 
+        "Wine Country Cottage", "Urban Penthouse", "Treehouse Retreat",
+        "seven eleven", "Hair shop", "Horse stable", "Fast food", 
+        "The hangover", "crudy creepy", "coffee pub", "Spa and such", 
+        "tiny Penthouse", "Coorperate Retreat", "Listen hard", 
+        "paper mill", "Zone for seniors", "Bike bells", "bounce house", 
+        "Ski of jelly", "Desert Storm", "Wine Country Juveniles", 
+        "Urban Borrow", "Treehouse basement", "High rise 7 floors", 
+        "regular place", "Matilac room", "Brownsville"
       ]}
     }, {});
   }
