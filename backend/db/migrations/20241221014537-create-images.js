@@ -27,7 +27,8 @@ module.exports = {
         references: {
           model: 'Spots',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       imageableId: {
         type: Sequelize.INTEGER,
@@ -42,9 +43,17 @@ module.exports = {
         references: {
           model: 'Reviews',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
-      createdAt: {
+      imageableId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      imageableType: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
