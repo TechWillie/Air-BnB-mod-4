@@ -46,67 +46,6 @@ module.exports = {
         email: 'forth@user.io',
         username: 'Forth Guy',
         hashedPassword: bcrypt.hashSync('pasord')
-      },
-      {
-        id: 5,
-
-        firstName: "Peter",
-        lastName: "cockman",
-        email: '5thguy@user.io',
-        username: 'Mr Five',
-        hashedPassword: bcrypt.hashSync('five')
-      },
-      {
-        id: 6,
-
-        firstName: "fred",
-        lastName: "Sanford",
-        email: 'numsix@user.io',
-        username: 'Sixth God',
-        hashedPassword: bcrypt.hashSync('sixers')
-      },
-      {
-        id: 7,
-
-        firstName: "Dsavid",
-        lastName: "loptop",
-        email: '7thHesaven@wanderlust.com',
-        username: 'Lucky Seven',
-        hashedPassword: bcrypt.hashSync('7Days')
-      },
-      {
-        id: 8,
-
-        firstName: "Larry",
-        lastName: "Davis",
-        email: '8ball@superhost.com',
-        username: 'Super Eight',
-        hashedPassword: bcrypt.hashSync('eight')
-      },
-      {
-        id: 9,
-
-        firstName: "virtes",
-        lastName: "pepers",
-        email: '9Lives@explore.com',
-        username: 'Ninth Wonder',
-        hashedPassword: bcrypt.hashSync('99x')
-      },
-      {
-        id: 10,
-        firstName: "semba",
-        lastName: "Mufasa",
-        email: 'ten@stays.com',
-        username: 'Ten Toes',
-        hashedPassword: bcrypt.hashSync('10times')
-      },
-      {
-        id: 11,
-        firstName: "Sazu",
-        lastName: "Jafar",
-        email: 'eleven@digital.com',
-        username: 'eleventh Hour',
-        hashedPassword: bcrypt.hashSync('twelve')
       }
     ], { validate: true });
   },
@@ -115,7 +54,7 @@ module.exports = {
     options.tableName = 'Users';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo lition', 'FakeUser1', 'FakeUser2', 'Forth Guy', 'Mr Five', 'Sixth God', 'Lucky Seven', 'Super Eight', 'Ninth Wonder', 'Ten Toes', 'eleventh Hour'] }
+      username: { [Op.in]: ['Demo lition', 'FakeUser1', 'FakeUser2', 'Forth Guy'] }
     }, {});
   }
 };
