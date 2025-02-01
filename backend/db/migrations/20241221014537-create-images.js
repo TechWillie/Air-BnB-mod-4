@@ -53,7 +53,8 @@ module.exports = {
       imageableType: {
         type: Sequelize.STRING,
         allowNull: false
-      },      createdAt: {
+      },      
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
