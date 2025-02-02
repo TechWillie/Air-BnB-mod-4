@@ -44,7 +44,7 @@ module.exports = {
       },
       {
         id: 5,
-        userId: 5,
+        userId: 4,
         spotId: 33,
         review: "Modern and stylish interior, great location",
         stars: 5,
@@ -52,7 +52,7 @@ module.exports = {
       },
       {
         id: 6,
-        userId: 6,
+        userId: 3,
         spotId: 18,
         review: "Wonderful beachfront property, will return!",
         stars: 5,
@@ -60,7 +60,7 @@ module.exports = {
       },
       {
         id: 7,
-        userId: 7,
+        userId: 2,
         spotId: 7,
         review: "Peaceful mountain retreat with fantastic views",
         stars: 4,
