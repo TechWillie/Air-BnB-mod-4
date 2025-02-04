@@ -25,6 +25,7 @@ router.post('/',async (req, res) => {
     // with the username and email from the request body 
     // and the hashedPassword generated from bcryptjs.
       const user = await User.create({ firstName, lastName, email, username, hashedPassword });
+  console.log(user);
   
       const safeUser = {
         id: user.id,
