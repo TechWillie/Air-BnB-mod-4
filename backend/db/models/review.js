@@ -31,11 +31,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Review.init(
     {
-      id: {  // Explicitly define the primary key 'id'
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-        autoIncrement: true, // Automatically incrementing ID
-      },
+      // id: {  // Explicitly define the primary key 'id'
+      //   primaryKey: true,
+      //   type: DataTypes.INTEGER,
+      //   autoIncrement: true, // Automatically incrementing ID
+      // },
     userId:{
         type: DataTypes.INTEGER,
         

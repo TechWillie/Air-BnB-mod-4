@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Image.init({
-    id: {  // Explicitly define the primary key 'id'
-      primaryKey: true,
-      type: DataTypes.INTEGER,
-      autoIncrement: true, // Automatically incrementing ID
-    },
+    // id: {  // Explicitly define the primary key 'id'
+    //   primaryKey: true,
+    //   type: DataTypes.INTEGER,
+    //   autoIncrement: true, // Automatically incrementing ID
+    // },
     imageableId: {
       type: DataTypes.INTEGER,
       allowNull: false
