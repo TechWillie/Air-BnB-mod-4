@@ -13,7 +13,7 @@ module.exports = {
       {
         id: 1,
         userId: 1,
-        spotId: 4,
+        spotId: 2,
         review: "Absolutely stunning location with breathtaking views!",
         stars: 5,
         user: "TravelPro"
@@ -45,7 +45,7 @@ module.exports = {
       {
         id: 5,
         userId: 4,
-        spotId: 4,
+        spotId: 3,
         review: "Modern and stylish interior, great location",
         stars: 5,
         user: "UrbanStay"
