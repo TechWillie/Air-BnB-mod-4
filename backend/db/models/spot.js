@@ -37,18 +37,12 @@ module.exports = (sequelize, DataTypes) => {
       ownerId:{
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "Users",
-          key: "id"
-          }
+        
         },
         spotImage:{
           type: DataTypes.INTEGER,
           allowNull: true,
-          references: {
-            model: "Images",
-            key: "id"
-            }
+          
           },
         address:{
           type: DataTypes.STRING,
