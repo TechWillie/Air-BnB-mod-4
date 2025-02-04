@@ -21,7 +21,7 @@ module.exports = {
       {
         id: 2,
         userId: 2,
-        spotId: 15,
+        spotId: 3,
         review: "Perfect getaway spot, very clean and comfortable",
         stars: 4,
         user: "Wanderlust"
@@ -29,7 +29,7 @@ module.exports = {
       {
         id: 3,
         userId: 3,
-        spotId: 6,
+        spotId: 2,
         review: "Exceptional hospitality and amazing amenities",
         stars: 5,
         user: "GlobalExplorer"
@@ -37,7 +37,7 @@ module.exports = {
       {
         id: 4,
         userId: 4,
-        spotId: 4,
+        spotId: 1,
         review: "Cozy space with great attention to detail",
         stars: 4,
         user: "HomeAway"
@@ -45,7 +45,7 @@ module.exports = {
       {
         id: 5,
         userId: 4,
-        spotId: 33,
+        spotId: 4,
         review: "Modern and stylish interior, great location",
         stars: 5,
         user: "UrbanStay"
@@ -53,7 +53,7 @@ module.exports = {
       {
         id: 6,
         userId: 3,
-        spotId: 18,
+        spotId: 3,
         review: "Wonderful beachfront property, will return!",
         stars: 5,
         user: "BeachLover"
@@ -61,7 +61,7 @@ module.exports = {
       {
         id: 7,
         userId: 2,
-        spotId: 7,
+        spotId: 2,
         review: "Peaceful mountain retreat with fantastic views",
         stars: 4,
         user: "Mountaineer"

@@ -36,35 +36,11 @@ module.exports = {
       },
       {
         id: 4,
-        spotId: 11,
+        spotId: 3,
         userId: 4,
         spot: "Ski Lodge Haven",
         startDate: "2025-04-01",
         endDate: "2025-04-07"
-      },
-      {
-        id: 5,
-        spotId: 5,
-        userId: 4,
-        spot: "Desert Oasis",
-        startDate: "2025-04-15",
-        endDate: "2025-04-20"
-      },
-      {
-        id: 6,
-        spotId: 24,
-        userId: 2,
-        spot: "Wine Country Cottage",
-        startDate: "2025-05-01",
-        endDate: "2025-05-07"
-      },
-      {
-        id: 7,
-        spotId: 7,
-        userId: 3,
-        spot: "Urban Penthouse",
-        startDate: "2025-05-15",
-        endDate: "2025-05-20"
       }
     ], {validate: true})
   },
@@ -74,8 +50,7 @@ module.exports = {
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
       spot: {[Op.in]: [
-        "Cornre Store", "Cornre shop", "Luxury Ocean Villa", "Ski Lodge Haven",
-        "Desert Oasis", "Wine Country Cottage", "Urban Penthouse"
+        "Cornre Store", "Cornre shop", "Luxury Ocean Villa", "Ski Lodge Haven"
       ]}
     }, {});
   }
