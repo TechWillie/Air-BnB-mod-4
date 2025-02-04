@@ -8,6 +8,12 @@ const { User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+router.get('/', async (req, res) => {
+  const users = await User.findAll()
+  return users
+})
+
+
 //! Sign up
 //  add the POST /api/users route to the router 
 // using an asynchronous route handler
