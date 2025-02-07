@@ -17,7 +17,7 @@ function LoginFormPage() {
         e.preventDefault();
         setErrors({});
         // dispatch the login thunk action with the form input values. 
-        return dispatch(sessionActions.userLogin({ credential, password }))
+        return dispatch(sessionActions.login({ credential, password }))
         .catch(async (res) => {
             const data = await res.json();
         // Make sure to handle and display errors from the login thunk action if there are any.
