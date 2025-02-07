@@ -1,22 +1,30 @@
 import {useState} from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom';
+
 
 import * as sessionActions from '../../store/session'
 
 function SignupFormPage() {
     const dispatch = useDispatch();
+    const sessionUser = useSelector((state) => state.session.user);
     const [username, setUsername] = useState("");
-    const [firstname, setFirstmane] = useState("");
+    const [firstName, setFirstname] = useState("");
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState({})
 
+    // If sessionUser exists (meaning a user is logged in), it redirects them to the homepage ("/").
+    // The <Navigate> component (from react-router-dom) handles the redirection.
+    // The replace={true} prop ensures that the redirection doesn't leave a history entry, 
+    // preventing users from navigating back.
+    if (sessionUser) return <Navigate to="/" replace={true} />;
 
     const submit = (e) => {
-        e,prevventDefault();
-        setErrors([]);
+        e.prevventDefault();
+        setErrors({});
 
         if(password === confirmPassword){
             dispatch(sessionActions.signup({
@@ -28,16 +36,19 @@ function SignupFormPage() {
             }))
             .catch(async (res) => {
                 const data = await res.json();
-                if (data?.errors) setErrors(data.errors);
+                if (data?.errors){ setErrors(data.errors)}
               });
         }
-        return setErrors(['Confirm Password field must be the same as the Password field'])
+        setErrors({
+      confirmPassword: "Confirm Password field must be the same as the Password field"
+        })
     }
 
     return (
         <form onSubmit={submit}>
             <ul>
-                {errors.mao((erroe, indx) => <li key={indx}>{error}</li>)}
+                {errors && Object.values(errors).map((error, indx) => <li key={indx}>{error}</li>)}
+                {/* {<p>errors: {Object.values(errors).map((error, indx) => <p>{error}</p>)}</p>} */}
             </ul>
             <label>
                 Username<input type='text' value={username}
@@ -45,24 +56,25 @@ function SignupFormPage() {
             </label>
             <label>
                 First Name<input type='text' value={firstName}
-                onChange={(e) => setUsername(e.target.value)} required />
+                onChange={(e) => setFirstname(e.target.value)} required />
             </label>
             <label>
                 Last Name<input type='text' value={lastName}
-                onChange={(e) => setUsername(e.target.value)} required />
+                onChange={(e) => setLastName(e.target.value)} required />
             </label>
             <label>
                 Email<input type='text' value={email}
-                onChange={(e) => setUsername(e.target.value)} required />
+                onChange={(e) => setEmail(e.target.value)} required />
             </label>
             <label>
                 Password<input type='text' value={password}
-                onChange={(e) => setUsername(e.target.value)} required />
+                onChange={(e) => setPassword(e.target.value)} required />
             </label>
             <label>
                 Please confirm password<input type='text' value={confirmPassword}
-                onChange={(e) => setUsername(e.target.value)} required />
+                onChange={(e) => setConfirmPassword(e.target.value)} required />
             </label>
+            {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
             <button type='submit'>Sign Up!</button>
         </form>
     )
