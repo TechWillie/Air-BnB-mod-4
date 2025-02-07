@@ -86,3 +86,11 @@ export const restoreUser = () => async dispatch => {
   dispatch(setUser(data.user));
   return response;
 };
+
+export const logout = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session', {
+        method: 'DELETE'
+    })
+    dispatch(removeUser())
+    return response
+}
