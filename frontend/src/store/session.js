@@ -18,15 +18,15 @@ const setUser = (user) => {
 // Extract their types into a constant that the action creator...
 // and session reducer will both use. Enable the reducer to adjust 
 // the session slice of state appropriately for both of these actions.
-const removeUser = () => {
+ export const removeUser = () => {
     return {
         type: REMOVE_USER // 'session/REMOVE_USER'
     }
 };
-
+// ! Login thunk Action
 // You need to call your backend API to log in, and then set the session user from the response.
 // Export the login thunk action 
-export const userLogin = (user) => async (dispatch) => {
+export const login = (user) => async (dispatch) => {
     // deconstruct the cred and passwd from the user passed in..
     const { credential, password } = user;
     // To do this, create a thunk action for making a request to POST /api/session. 
@@ -46,6 +46,24 @@ export const userLogin = (user) => async (dispatch) => {
     dispatch(setUser(data.user))
     return response
 }
+
+// ! Sign Up Thunk actoin
+export const signup = (user) => async (dispatch) => {
+    const {username, firstName, lastName, email, password} = user
+
+    const response = await csrfFetch('/api/users', {
+        method: 'POST',
+        body: JSON.stringify({
+            username, password, firstName, lastName, email
+        })
+    })
+
+    const data = await response.json()
+    dispatch(setUser(data.user))
+    return response;
+
+}
+
  const initialState = {user: null}
 
  const sessionReducer = (state = initialState, action) => {
