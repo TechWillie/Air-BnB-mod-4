@@ -90,6 +90,8 @@ export const signup = (user) => async (dispatch) => {
 // export the reducer as the default export.
 export default sessionReducer;
 
+
+// ! RESTORE USER
 export const restoreUser = () => async dispatch => {
   const response = await csrfFetch('/api/session');
   const data = await response.json();
@@ -97,6 +99,8 @@ export const restoreUser = () => async dispatch => {
   return response;
 };
 
+
+// ! LOGOUT
 export const logout = () => async (dispatch) => {
     const response = await csrfFetch('/api/session', {
         method: 'DELETE'
