@@ -1,6 +1,6 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux' 
 import {thunk} from 'redux-thunk'
-import sessionReducer, { login } from './session';
+import sessionReducer from './session';
 
 
 // Create a rootReducer that calls combineReducers and pass in an empty object for now.

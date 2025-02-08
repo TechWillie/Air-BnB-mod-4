@@ -21,9 +21,19 @@ function SignupFormPage() {
     // The replace={true} prop ensures that the redirection doesn't leave a history entry, 
     // preventing users from navigating back.
     if (sessionUser) return <Navigate to="/" replace={true} />;
-
+    // <Navigate to="/" replace={true} />; WORKS
+    console.log("sess user:", sessionUser);
+    console.log(username,
+                firstName,
+                lastName,
+                email,
+                password);
+    
+    
     const submit = (e) => {
-        e.prevventDefault();
+        e.preventDefault();
+        <Navigate to="/" replace={true} />;
+        // console.log('Form submitted with:', { username, firstName, lastName, email, password });
         setErrors({});
 
         if(password === confirmPassword){
@@ -34,15 +44,17 @@ function SignupFormPage() {
                 email,
                 password
             }))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data?.errors){ setErrors(data.errors)}
-              });
-        }
-        setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-        })
-    }
+            // .then(() => console.log("Sign up successful"))
+
+            
+            const response = async(res) => {
+                const data = await res.json()
+                if(data?.errors){setErrors(data.errors)}
+            }
+            return response
+        } else {setErrors({confirmPassword: "Confirm Password field must be the same as the Password field"})}
+        
+    } 
 
     return (
         <form onSubmit={submit}>
@@ -75,7 +87,7 @@ function SignupFormPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)} required />
             </label>
             {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-            <button type='submit'>Sign Up!</button>
+            <button type="submit">Sign Up!</button>
         </form>
     )
 }
