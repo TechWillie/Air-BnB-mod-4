@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import LoginFormPage from './components/LoginFormPage/LoginFormPage';
 import * as sessionActions from './store/session';
 import SignupFormPage from './components/SignupPage/SignupFormPage';
+import Navigation from './components/Navigation/Navigation';
+
 
 function Layout() {
   const dispatch = useDispatch();
@@ -18,6 +20,7 @@ function Layout() {
 
   return (
     <>
+      <Navigation isLoaded={isLoaded} />
       {isLoaded && <Outlet />}
     </>
   );
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Willie says Welcome!</h1>
+        element: <h1>Welcome..</h1>
       },
       {
         path: '/login',

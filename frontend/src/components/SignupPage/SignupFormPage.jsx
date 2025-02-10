@@ -55,7 +55,6 @@ function SignupFormPage() {
         } else {setErrors({confirmPassword: "Confirm Password field must be the same as the Password field"})}
         
     } 
-
     return (
         <form onSubmit={submit}>
             <ul>
