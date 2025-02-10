@@ -11,6 +11,7 @@ import configureStore from './store/store';
 import { restoreCSRF, csrfFetch } from './store/csrf'
 // ...
 import * as sessionActions from './store/session'
+import { ModalProvider } from './context/model';
 
 
 // Create a variable to access your store and... 
@@ -30,8 +31,10 @@ if (import.meta.env.MODE !== 'production') {
 // passing store as a prop of the same name to Provider.
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ModalProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ModalProvider>
   </React.StrictMode>
 );
