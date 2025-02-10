@@ -6,6 +6,8 @@ import { FaHouseUser } from "react-icons/fa";
 import { FaUserPen } from "react-icons/fa6";
 import { FaUserPlus } from "react-icons/fa6";
 import { FaUserLargeSlash } from "react-icons/fa6";
+import ProfileButton from "./ProfileButton";
+
 
 function Navigation(){
     const dispatch = useDispatch();
@@ -18,13 +20,12 @@ function Navigation(){
     return (
         <ul>
             <li><NavLink to='/'><FaHouseUser /> Home</NavLink></li>
-            {sessionUser ? 
-            (
-                <li><button onClick={loginHandle}><FaUserLargeSlash /> Log Out</button></li>
-            ): (
+            {sessionUser ? (
+                <li><ProfileButton user={sessionUser} /></li>
+            ) : (
                 <>
-                <li><NavLink to="/login"><FaUserPlus /> Log In</NavLink></li>
-                <li><NavLink to="/signup"><FaUserPen /> Sign Up</NavLink></li>
+                    <li><NavLink to="/login">Log In</NavLink></li>
+                    <li><NavLink to="/signup">Sign Up</NavLink></li>
                 </>
             )}
         </ul>

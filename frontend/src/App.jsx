@@ -6,6 +6,7 @@ import * as sessionActions from './store/session';
 import SignupFormPage from './components/SignupPage/SignupFormPage';
 import Navigation from './components/Navigation/Navigation';
 
+
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
