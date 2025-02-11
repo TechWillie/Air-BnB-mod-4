@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
+import { FaUserLargeSlash } from "react-icons/fa6";
 import './Navigation.css';
 
 
@@ -11,10 +12,10 @@ function ProfileButton({ user }) {
     const [showMenu, setShowmenu] = useState(false)
     const ulRef = useRef()
     
-    const toggle = (e) => {
-        e.stopPropagation()
-        setShowmenu(!showMenu)
-    }
+    // const toggle = (e) => {
+    //     e.stopPropagation()
+    //     setShowmenu(!showMenu)
+    // }
 
     useEffect(() => {
         if(!showMenu) return
@@ -35,9 +36,6 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
-  
-  
-
   return (
     <>
       <button onClick={() => setShowmenu(!showMenu)}>
@@ -48,7 +46,7 @@ function ProfileButton({ user }) {
         <li>{user.firstName} {user.lastName}</li>
         <li>{user.email}</li>
         <li>
-          <button onClick={logout}>Log Out</button>
+          <button onClick={logout}><FaUserLargeSlash /> Log Out</button>
         </li>
       </ul>
     </>

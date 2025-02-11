@@ -1,35 +1,61 @@
 // import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
-import * as sessionActions from '../../store/session'
+// import * as sessionActions from '../../store/session'
 import { FaHouseUser } from "react-icons/fa";
-import { FaUserPen } from "react-icons/fa6";
-import { FaUserPlus } from "react-icons/fa6";
-import { FaUserLargeSlash } from "react-icons/fa6";
+// import { FaUserPen } from "react-icons/fa6";
+// import { FaUserPlus } from "react-icons/fa6";
+
 import ProfileButton from "./ProfileButton";
+import  OpenModalButton  from "../OpenModalButton/OpenModalButton";
+import LoginFormModal from '../LoginFormModal/LoginFormModal';
 
+import "./Navigation.css"
 
-function Navigation(){
-    const dispatch = useDispatch();
-    const sessionUser = useSelector(state => state.session.user);
-
-    const loginHandle = e => {
-        e.preventDefault();
-        dispatch(sessionActions.logout())
-    }
+const Greeting = () => {
     return (
-        <ul>
-            <li><NavLink to='/'><FaHouseUser /> Home</NavLink></li>
-            {sessionUser ? (
-                <li><ProfileButton user={sessionUser} /></li>
-            ) : (
-                <>
-                    <li><NavLink to="/login">Log In</NavLink></li>
-                    <li><NavLink to="/signup">Sign Up</NavLink></li>
-                </>
-            )}
-        </ul>
-    )
-}
+      <OpenModalButton
+        buttonText="Greeting"
+        modalComponent={<h2>Hello World!</h2>}
+        onButtonClick={() => console.log("Greeting initiated")}
+      />
+    );
+  };
 
-export default Navigation
+
+function Navigation({ isLoaded }) {
+    const sessionUser = useSelector((state) => state.session.user);
+  
+    const sessionLinks = sessionUser ? (
+      <li>
+        <ProfileButton user={sessionUser} />
+      </li>
+    ) : (
+      <>
+        <li>
+          <OpenModalButton
+            icon={<FaHouseUser />}
+            buttonText="Log In"
+            modalComponent={<LoginFormModal />}
+          />
+        </li>
+        <li>
+          <NavLink to="/signup">Sign Up</NavLink>
+        </li>
+        <li>
+            <Greeting />
+        </li>
+      </>
+    );
+  
+    return (
+      <ul>
+        <li>
+          <NavLink to="/">Home</NavLink>
+        </li>
+        {isLoaded && sessionLinks}
+      </ul>
+    );
+  }
+  
+  export default Navigation;

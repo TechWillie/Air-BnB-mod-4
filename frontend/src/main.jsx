@@ -11,7 +11,8 @@ import configureStore from './store/store';
 import { restoreCSRF, csrfFetch } from './store/csrf'
 // ...
 import * as sessionActions from './store/session'
-import { ModalProvider } from './context/model';
+import { ModalProvider, Modal } from './context/modal';
+
 
 
 // Create a variable to access your store and... 
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ModalProvider>
       <Provider store={store}>
         <App />
+        <Modal />
       </Provider>
     </ModalProvider>
   </React.StrictMode>
