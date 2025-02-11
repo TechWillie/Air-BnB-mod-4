@@ -1,53 +1,74 @@
-import { useEffect, useState, useRef } from 'react';
+
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
-import { FaUserLargeSlash } from "react-icons/fa6";
-import './Navigation.css';
-
-
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
+import LoginFormModal from '../LoginFormModal/LoginFormModal';
+import SignupFormModal from '../SignupModal/SignupFormModal';
 
 function ProfileButton({ user }) {
-    const dispatch = useDispatch();
-    const [showMenu, setShowmenu] = useState(false)
-    const ulRef = useRef()
-    
-    // const toggle = (e) => {
-    //     e.stopPropagation()
-    //     setShowmenu(!showMenu)
-    // }
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
 
-    useEffect(() => {
-        if(!showMenu) return
+  const toggleMenu = (e) => {
+    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    setShowMenu(!showMenu);
+  };
 
-        const hideMenu = (e) => {
-            if (ulRef.current && !ulRef.current.contains(e.target))
-            setShowmenu(false)
-        }
-    
-        document.addEventListener("click", hideMenu)
-        return document.removeEventListener("click", hideMenu)
-    }, [showMenu])
+  useEffect(() => {
+    if (!showMenu) return;
 
-  const cssMenuToggle = "profile-dropdown" + (showMenu ? "" : " hidden");
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener('click', closeMenu);
+
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
 
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
   };
 
+  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
   return (
     <>
-      <button onClick={() => setShowmenu(!showMenu)}>
-        <FaUserCircle />   {user.username}
+      <button onClick={toggleMenu}>
+        <FaUserCircle />
       </button>
-      <ul className={cssMenuToggle}>
-        <li>{user.username}</li>
-        <li>{user.firstName} {user.lastName}</li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={logout}><FaUserLargeSlash /> Log Out</button>
-        </li>
+      <ul className={ulClassName} ref={ulRef}>
+        {user ? (
+          <>
+            <li>{user.username}</li>
+            <li>{user.firstName} {user.lastName}</li>
+            <li>{user.email}</li>
+            <li>
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <OpenModalButton
+                buttonText="Log In"
+                modalComponent={<LoginFormModal />}
+              />
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Sign Up"
+                modalComponent={<SignupFormModal />}
+              />
+            </li>
+          </>
+        )}
       </ul>
     </>
   );
