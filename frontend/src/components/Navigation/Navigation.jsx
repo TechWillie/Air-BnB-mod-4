@@ -9,6 +9,7 @@ import { FaHouseUser } from "react-icons/fa";
 import ProfileButton from "./ProfileButton";
 import  OpenModalButton  from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
+import SignupFormModal from "../SignupModal/SignupFormModal";
 
 import "./Navigation.css"
 
@@ -40,7 +41,10 @@ function Navigation({ isLoaded }) {
           />
         </li>
         <li>
-          <NavLink to="/signup">Sign Up</NavLink>
+            <OpenModalButton
+              buttonText="Sign Up"
+              modalComponent={<SignupFormModal />}
+            />
         </li>
         <li>
             <Greeting />
