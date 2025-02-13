@@ -14,7 +14,9 @@ console.log(spotId, spot);
 
   useEffect(() => {
     dispatch(getSpotDetails(spotId));
-  }, [dispatch, spotId]);
+    console.log("Hello");
+    
+  }, [dispatch]);
 
   console.log("spotDetails / Current spot: ", spot);
 

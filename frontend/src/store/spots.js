@@ -15,8 +15,8 @@ const loadSpots = spots => ({
 
 export const getSpotDetails = (spotId) => async dispatch => {
   console.log('spots.js / Fetching spot details for ID:', spotId);
-  // const response = await fetch(`/api/spots/${spotId}`);
-  const response = await csrfFetch(`/api/spots/${spotId}`);
+  const response = await fetch(`/api/spots/${spotId}`);
+  // const response = await csrfFetch(`/api/spots/${spotId}`);
   console.log('spots.js / API Response:', response);
   const spot = await response.json();
   // console.log(spot);
@@ -33,10 +33,12 @@ export const getSpots = () => async dispatch => {
   dispatch(loadSpots(spots));
 };
 
-const spotsReducer = (state = [], action) => {
+const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
-      return action.spots;
+      return {
+        spots: Object.values(action.spots)
+      }
     case LOAD_SPOT_DETAILS:
       return {
         ...state,
