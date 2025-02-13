@@ -16,7 +16,7 @@ console.log(spotId, spot);
     dispatch(getSpotDetails(spotId));
     console.log("Hello");
     
-  }, [dispatch, spotId]);
+  }, [dispatch]);
 
   console.log("spotDetails / Current spot: ", spot);
 
