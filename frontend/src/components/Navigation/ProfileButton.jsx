@@ -6,6 +6,10 @@ import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupModal/SignupFormModal';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -31,9 +35,16 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  const Navigate = useNavigate()
+
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    console.log("willie logout")
+    dispatch(sessionActions.logout())
+    // .then(() => );
+    .then(() => Navigate('/'))
+    console.log("done route");
+    
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
