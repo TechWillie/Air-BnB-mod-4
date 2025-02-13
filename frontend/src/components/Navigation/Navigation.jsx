@@ -28,7 +28,7 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector((state) => state.session.user);
   
     const sessionLinks = sessionUser ? (
-      <li>
+      <li className="nav-item">
         <ProfileButton user={sessionUser} />
       </li>
     ) : (
