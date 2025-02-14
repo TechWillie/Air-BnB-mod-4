@@ -28,25 +28,25 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector((state) => state.session.user);
   
     const sessionLinks = sessionUser ? (
-      <li className="nav-item">
+      <li >
         <ProfileButton user={sessionUser} />
       </li>
     ) : (
       <>
-        <li>
+        <li >
           <OpenModalButton
             icon={<FaHouseUser />}
             buttonText="Log In"
             modalComponent={<LoginFormModal />}
           />
         </li>
-        <li>
+        <li >
             <OpenModalButton
               buttonText="Sign Up"
               modalComponent={<SignupFormModal />}
             />
         </li>
-        <li>
+        <li >
             <Greeting />
         </li>
       </>

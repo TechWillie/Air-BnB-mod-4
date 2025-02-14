@@ -14,16 +14,25 @@ const loadSpots = spots => ({
 });
 
 export const getSpotDetails = (spotId) => async dispatch => {
-  console.log('spots.js / Fetching spot details for ID:', spotId);
   const response = await fetch(`/api/spots/${spotId}`);
+  console.log('!. spots.js / Fetching spot details for ID:', spotId);
   // const response = await csrfFetch(`/api/spots/${spotId}`);
-  console.log('spots.js / API Response:', response);
-  const spot = await response.json();
-  // console.log(spot);
-  
+  console.log('2. spots.js / API Response:', response);
+  const spot = await response?.json();
+  console.log("3. spot = response.json()", spot);
   dispatch(loadSpotDetails(spot));
   
 };
+// export const getSpotImage = (spotId) => async dispatch => {
+//    const imageResponse = await fetch(`/api/images/${spotId}`);
+// console.log(`first image api call ${imageResponse}`, imageResponse);
+
+// const images = await imageResponse.json();
+// console.log("to JSON: ", images[0].url);
+// const imageUrl = images[spotId].url
+
+// dispatch(loadImages(imageUrl));
+// }
 
 
 

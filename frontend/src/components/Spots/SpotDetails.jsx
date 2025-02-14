@@ -9,18 +9,21 @@ function SpotDetails() {
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.currentSpot);
 
+  // const imageUrl = spot.Images?.[0]?.url;
+  // console.log(imageUrl);
+
 console.log(spotId, spot);
 
 
   useEffect(() => {
     dispatch(getSpotDetails(spotId));
-    console.log("Hello");
+    console.log("Dispatched getSpotDetials / SpotDetails.jsx");
     
-  }, [dispatch]);
+  }, [dispatch, spotId]);
 
-  console.log("spotDetails / Current spot: ", spot);
+  console.log("spotDetails / Current spot: ", spotId);
 
-  if (!spot) return console.error("not a spot");
+  if (!spot) return console.error("not a spot"); // Don't really need
   
 
   return (
@@ -28,19 +31,17 @@ console.log(spotId, spot);
       <h1>{spot.name}</h1>
       <p>{spot.city}, {spot.state}, {spot.country}</p>
       
-      {/* <div>
-        <img src={spot.spotImages[0]?.url} alt={spot.name} />
+      <div>
+        <img src={spot?.previewImage} alt={spot.name} />
         <div className="secondary-images">
-          {spot.SpotImages.slice(1, 5).map((image, index) => (
-            <img key={index} src={image.url} alt={`${spot.name} ${index + 2}`} />
-          ))}
+         
         </div>
-      </div> */}
+      </div>
 
       <div>
-        <div>
-          <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-        </div>
+        {/* <div>
+          <h2>Hosted by {spot.Owner} {spot.Owner}</h2>
+        </div> */}
         
         <div>
           <p>{spot.description}</p>
