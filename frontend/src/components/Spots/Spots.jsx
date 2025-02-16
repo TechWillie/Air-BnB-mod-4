@@ -34,7 +34,7 @@ function Spots() {
 
               <div className="spot-card">
 
-                <img src={spot.previewImage} alt={spot.name} />
+                <img src={spot?.previewImage} alt={spot.name} />
                 <div className="spot-info">
 
                   <p>

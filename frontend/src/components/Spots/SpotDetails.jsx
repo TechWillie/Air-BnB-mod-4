@@ -7,17 +7,17 @@ import { getSpotDetails } from '../../store/spots';
 function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const spot = useSelector(state => state.spots.currentSpot);
+  const spot = useSelector(state => state.spots.currentSpot)
 
   // const imageUrl = spot.Images?.[0]?.url;
   // console.log(imageUrl);
 
-console.log(spotId, spot);
+console.log("THE spot: ", spot);
 
 
   useEffect(() => {
     dispatch(getSpotDetails(spotId));
-    console.log("Dispatched getSpotDetials / SpotDetails.jsx");
+    console.log("Dispatched getSpotDetials / SpotDetails.jsx", spotId);
     
   }, [dispatch, spotId]);
 
@@ -39,9 +39,9 @@ console.log(spotId, spot);
       </div>
 
       <div>
-        {/* <div>
-          <h2>Hosted by {spot.Owner} {spot.Owner}</h2>
-        </div> */}
+        <div>
+          <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+        </div>
         
         <div>
           <p>{spot.description}</p>
