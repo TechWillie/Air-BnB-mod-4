@@ -39,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         
         },
-        spotImage:{
-          type: DataTypes.INTEGER,
+        previewImage:{
+          type: DataTypes.STRING,
           allowNull: true,
           
           },

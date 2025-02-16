@@ -13,7 +13,7 @@ module.exports = {
       {
         id: 1,
         ownerId: 1,
-        spotImage: 1,
+        previewImage: "https://picsum.photos/200/200",
         address: '123 drive court',
         city: "Smyrna",
         state: "Georgia",
@@ -26,8 +26,8 @@ module.exports = {
       },
       {
         id: 2,
-        ownerId: 1,
-        spotImage: 1,
+        ownerId: 2,
+        previewImage: "https://picsum.photos/200/300",
         address: '123 dve court',
         city: "Smyruuua",
         state: "Geoa",
@@ -40,8 +40,8 @@ module.exports = {
       },
       {
         id: 3,
-        ownerId: 1,
-        spotImage: 2,
+        ownerId: 3,
+        previewImage: "https://picsum.photos/200/400",
         address: '1243 drive court',
         city: "Smyrna",
         state: "Georgia",

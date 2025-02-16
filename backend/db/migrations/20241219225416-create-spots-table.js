@@ -21,10 +21,10 @@ module.exports = {
         allowNull: false,
         unique: false,
       },
-      spotImage: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
+      previewImage: {
+        constraints: false,
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       address: {
         type: Sequelize.STRING,

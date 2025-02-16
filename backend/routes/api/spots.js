@@ -293,11 +293,11 @@ router.get('/current', requireAuth, async (req, res) => {
 // ! Get details for a spot from an id..
 // Define the route to get a spot by ID
 router.get('/:id', async (req, res) => {
-  console.log(req.params);
+  console.log("get route from BE. req.param Obj: ", req.params);
   try {
     // Get the spot ID from the URL params.. Destructured
-    const {id} = req.params;
-    console.log(id);
+    const {id} = req.params
+    console.log("th is the id: ", id);
     
 
     // Fetch the spot model by its ID, 
@@ -334,11 +334,11 @@ router.get('/:id', async (req, res) => {
     // Calculate review data: count and average star rating
     const numReviews = await Review.count({ where: { spotId: id } });
 
-    const avgStarRating = numReviews > 0 
-      // {spotId: id} => id from params!!
-      ? await Review.avg('rating', { where: { spotId: id } }) 
-      // Return null if no reviews exist
-      : null; 
+    // const avgStarRating = numReviews > 0 
+    //   // {spotId: id} => id from params!!
+    //   ? await Review.avg('rating', { where: { spotId: id } }) 
+    //   // Return null if no reviews exist
+    //   : null; 
 
     // Prepare the response data
     const spotData = {
@@ -356,7 +356,8 @@ router.get('/:id', async (req, res) => {
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt,
       numReviews, // Lazy load above
-      avgStarRating, // Lazy load above
+      // avgStarRating, // Lazy load above
+      previewImage: spot?.previewImage,
       Images: spot.Image, // Associated Images data
       Owner: spot.User, // Associated Owner (User) data
     };
@@ -366,7 +367,7 @@ router.get('/:id', async (req, res) => {
   } catch (error) {
     // Handle any errors
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Willi Internal server error' });
   }
 });
 

@@ -12,25 +12,25 @@ module.exports = {
     await Image.bulkCreate([
       {
         id: 1,
-        url: "https://example.com/spot1.jpg",
-        preview: "true",
-        spotId: 1,
+        url: "https://source.unsplash.com/random/200x300",
+        preview: true,
+     
         imageableId: 1,
         imageableType: 'spot'
       },
       {
         id: 2,
-        url: "https://example.com/review1.jpg",
-        preview: "false",
-        reviewId: 1,
+        url: "https://picsum.photos/200/200",
+        preview: true,
+       
         imageableId: 1,
         imageableType: 'review'
       },
       {
         id: 3,
-        url: "https://example.com/spot2.jpg",
-        preview: "true",
-        spotId: 2,
+        url: "https://picsum.photos/200/300",
+        preview: true,
+       
         imageableId: 2,
         imageableType: 'spot'
       }
@@ -42,9 +42,9 @@ module.exports = {
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
       url: { [Op.in]: [
-        "https://example.com/spot1.jpg",
-        "https://example.com/review1.jpg",
-        "https://example.com/spot2.jpg"
+        "https://source.unsplash.com/random/200x300",
+        "https://picsum.photos/200/200",
+        "https://picsum.photos/200/300"
       ]}
     }, {});
   }

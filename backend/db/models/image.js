@@ -28,14 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
   },
-  spotId: {
-    type: DataTypes.INTEGER
-  },
-  reviewId: {
-      type: DataTypes.INTEGER
-  },
     url: DataTypes.STRING,
-    preview: DataTypes.STRING
+    preview: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Image',

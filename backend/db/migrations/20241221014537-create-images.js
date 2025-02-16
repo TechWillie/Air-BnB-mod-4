@@ -19,16 +19,9 @@ module.exports = {
         allowNull: false
       },
       preview: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-      },
-      spotId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Spots',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
+        type: Sequelize.BOOLEAN,  // You can also use Sequelize.BOOLEAN
+        defaultValue: true,       // Default value is true
+        allowNull: false          // Optional, ensuring the value is never null
       },
       imageableId: {
         type: Sequelize.INTEGER,
@@ -38,22 +31,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      reviewId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Reviews',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
-      },
-      imageableId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      imageableType: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

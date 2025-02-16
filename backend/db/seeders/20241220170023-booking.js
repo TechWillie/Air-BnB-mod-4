@@ -15,32 +15,32 @@ module.exports = {
         spotId: 1,
         userId: 1,
         spot: "Cornre Store",
-        startDate: "2025-02-15",
-        endDate: "2025-02-20"
+        startDate: "2026-02-15",
+        endDate: "2026-02-20"
       },
       {
         id: 2,
         spotId: 2,
         userId: 2,
         spot: "Cornre shop",
-        startDate: "2025-03-01",
-        endDate: "2025-03-07"
+        startDate: "2026-03-01",
+        endDate: "2026-03-07"
       },
       {
         id: 3,
         spotId: 3,
         userId: 3,
         spot: "Luxury Ocean Villa",
-        startDate: "2025-03-15",
-        endDate: "2025-03-20"
+        startDate: "2026-03-15",
+        endDate: "2026-03-20"
       },
       {
         id: 4,
         spotId: 3,
         userId: 4,
         spot: "Ski Lodge Haven",
-        startDate: "2025-04-01",
-        endDate: "2025-04-07"
+        startDate: "2026-04-01",
+        endDate: "2026-04-07"
       }
     ], {validate: true})
   },

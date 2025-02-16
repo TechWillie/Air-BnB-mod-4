@@ -1,7 +1,26 @@
 const express = require('express');
-const {SpotImage, Spot} = require('../../db/models');
+const {Image, Spot} = require('../../db/models');
 const { requireAuth } = require('../../utils/auth'); // Ensure user is authenticated
 const router = express.Router();
+
+
+// GET images for a specific spot
+router.get('/:spotId', async (req, res) => {
+  const { spotId } = req.params;
+  const images = await Image.findAll({
+    where: {
+      imageableId: spotId,
+      imageableType: 'spot'
+    }
+  });
+  console.log(images);
+  
+  const img =  res.json(images);
+  console.log("the image in BE route:", img);
+  
+  return img
+});
+
 
 // ! DELETE an image for a sopt 
 router.delete('/:imageId', requireAuth, async (req, res) => {
