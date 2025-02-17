@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom"
 import { FaHouseUser } from "react-icons/fa";
 // import { FaUserPen } from "react-icons/fa6";
 // import { FaUserPlus } from "react-icons/fa6";
+import PropTypes from 'prop-types';
 
 import ProfileButton from "./ProfileButton";
 import  OpenModalButton  from "../OpenModalButton/OpenModalButton";
@@ -22,6 +23,11 @@ const Greeting = () => {
       />
     );
   };
+
+  Navigation.propTypes = {
+    isLoaded: PropTypes.bool
+  };
+  
 
 
 function Navigation({ isLoaded }) {
@@ -63,3 +69,6 @@ function Navigation({ isLoaded }) {
   }
   
   export default Navigation;
+
+
+

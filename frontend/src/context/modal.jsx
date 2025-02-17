@@ -1,6 +1,12 @@
 import { useRef, useState, useContext, createContext } from 'react';
 import ReactDOM from 'react-dom';
 // import './Modal.css';
+import PropTypes from 'prop-types';
+
+ModalProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
 
 const ModalContext = createContext();
 
@@ -55,3 +61,6 @@ export function Modal() {
 }
 
 export const useModal = () => useContext(ModalContext);
+
+
+
