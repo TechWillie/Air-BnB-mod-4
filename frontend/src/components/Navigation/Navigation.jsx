@@ -14,15 +14,15 @@ import SignupFormModal from "../SignupModal/SignupFormModal";
 
 import "./Navigation.css"
 
-const Greeting = () => {
-    return (
-      <OpenModalButton
-        buttonText="Greeting"
-        modalComponent={<h2>Hello World!</h2>}
-        onButtonClick={() => console.log("Greeting initiated")}
-      />
-    );
-  };
+// const Greeting = () => {
+//     return (
+//       <OpenModalButton
+//         buttonText="Greeting"
+//         modalComponent={<h2>Hello World!</h2>}
+//         onButtonClick={() => console.log("Greeting initiated")}
+//       />
+//     );
+//   };
 
   Navigation.propTypes = {
     isLoaded: PropTypes.bool
@@ -52,9 +52,9 @@ function Navigation({ isLoaded }) {
               modalComponent={<SignupFormModal />}
             />
         </li>
-        <li >
+        {/* <li >
             <Greeting />
-        </li>
+        </li> */}
       </>
     );
   
