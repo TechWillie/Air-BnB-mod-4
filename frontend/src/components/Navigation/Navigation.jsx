@@ -1,13 +1,16 @@
 // import { useState } from "react";
 import { useSelector } from "react-redux"
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import ProfileButton from "./ProfileButton";
+import logo from "../../../../images/ABNB_logo.png";
+
+
 // import * as sessionActions from '../../store/session'
 import { FaHouseUser } from "react-icons/fa";
-// import { FaUserPen } from "react-icons/fa6";
-// import { FaUserPlus } from "react-icons/fa6";
-import PropTypes from 'prop-types';
+import { FaUserPen, FaUserPlus } from "react-icons/fa6";
 
-import ProfileButton from "./ProfileButton";
 import  OpenModalButton  from "../OpenModalButton/OpenModalButton";
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from "../SignupModal/SignupFormModal";
@@ -31,6 +34,8 @@ import "./Navigation.css"
 
 
 function Navigation({ isLoaded }) {
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
     const sessionUser = useSelector((state) => state.session.user);
   
     const sessionLinks = sessionUser ? (
@@ -39,29 +44,22 @@ function Navigation({ isLoaded }) {
       </li>
     ) : (
       <>
-        <li >
-          <OpenModalButton
-            icon={<FaHouseUser />}
-            buttonText="Log In"
-            modalComponent={<LoginFormModal />}
-          />
-        </li>
-        <li >
-            <OpenModalButton
-              buttonText="Sign Up"
-              modalComponent={<SignupFormModal />}
-            />
-        </li>
-        {/* <li >
-            <Greeting />
-        </li> */}
+        <nav className="nav-container">
+      <div className="logo">
+        
+      </div>
+      <div className="auth-links">
+        <Link to="/login" className="nav-link">Login</Link>
+        <Link to="/signup" className="nav-link">Sign Up</Link>
+      </div>
+    </nav>
       </>
     );
   
     return (
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/"><img src={logo} alt="Logo" className="logo-image" /></NavLink>
         </li>
         {isLoaded && sessionLinks}
       </ul>
