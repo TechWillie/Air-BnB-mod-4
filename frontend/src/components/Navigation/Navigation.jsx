@@ -36,7 +36,7 @@ import "./Navigation.css"
 function Navigation({ isLoaded }) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user);
   
     const sessionLinks = sessionUser ? (
       <li >
@@ -48,21 +48,31 @@ function Navigation({ isLoaded }) {
       <div className="logo">
         
       </div>
-      <div className="auth-links">
-        <Link to="/login" className="nav-link">Login</Link>
-        <Link to="/signup" className="nav-link">Sign Up</Link>
+      <div className="login_signup">
+      <OpenModalButton
+            buttonText="Log In"
+            modalComponent={<LoginFormModal />}
+          />
+        <OpenModalButton
+            buttonText="Sign Up" 
+            modalComponent={<SignupFormModal />}
+          />
       </div>
     </nav>
       </>
     );
   
     return (
-      <ul>
-        <li>
-          <NavLink to="/"><img src={logo} alt="Logo" className="logo-image" /></NavLink>
-        </li>
+      <>
+        <div className="top-bar">
+          <NavLink to="/"><img src={logo} alt="Logo" className="logo-air" /></NavLink>
+        </div>
         {isLoaded && sessionLinks}
-      </ul>
+      
+      
+      
+      
+      </>
     );
   }
   

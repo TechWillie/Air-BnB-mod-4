@@ -1,20 +1,39 @@
-.hidden{
-    display: none;
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  width: 100%;
 }
 
-.profile-dropdown {
-    /* position: absolute; */
-    right: 0;
-    top: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
+.logo {
+  display: flex;
+  align-items: center;
+}
 
-  .logo-image {
-    height: 60px;
-    width: 60px;
-    object-fit: contain;
-  }
+.logo-air {
+  height: 40px;
+  width: auto;
+}
+
+.login_signup {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #222;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: #f7f7f7;
+}
+
+.top-bar{
+  border-style: double;
+}
