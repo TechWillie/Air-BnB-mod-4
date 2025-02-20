@@ -31,8 +31,9 @@
 
 .spot-card:hover {
   border-style: double;
-  transform: scale(1.02);
+  transform: scale(1.15);
   cursor: pointer;
+  background-color: rgb(247, 236, 236);
 }
 
 .spot-card img {

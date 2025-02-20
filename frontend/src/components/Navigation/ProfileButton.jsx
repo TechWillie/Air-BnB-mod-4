@@ -5,8 +5,9 @@
   import OpenModalButton from '../OpenModalButton/OpenModalButton';
   import LoginFormModal from '../LoginFormModal/LoginFormModal';
   import SignupFormModal from '../SignupModal/SignupFormModal';
-  import { useNavigate } from 'react-router-dom';
+  // import { NavLink, useNavigate } from 'react-router-dom';
   import PropTypes from 'prop-types';
+  
 
   function ProfileButton({ user }) {
     const dispatch = useDispatch();
@@ -14,6 +15,7 @@
     const ulRef = useRef();
 
     const toggleMenu = (e) => {
+
       e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
       setShowMenu(!showMenu);
     };
@@ -32,14 +34,14 @@
       return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
-    const Navigate = useNavigate()
+    
 
     const logout = (e) => {
       e.preventDefault();
       console.log("willie logout")
       dispatch(sessionActions.logout())
       // .then(() => );
-      .then(() => Navigate('/'))
+      
       console.log("done route");
     
     };
@@ -48,7 +50,7 @@
 
     return (
       <>
-        <button onClick={toggleMenu}>
+        <button onClick={toggleMenu} className="button">
           <FaUserCircle />
         </button>
         <ul className={ulClassName} ref={ulRef}>

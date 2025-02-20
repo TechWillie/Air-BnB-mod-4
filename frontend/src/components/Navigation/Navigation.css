@@ -1,39 +1,49 @@
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  padding: 1rem 2rem;
-  width: 100%;
+  padding: 5px;
+  width: 15%;
+  /* background-color: blue; */
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  height: 100px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-}
+
 
 .logo-air {
+  display: flex;
   height: 40px;
-  width: auto;
+  max-width: 50%;
+  border-width: 200px;
+  
 }
 
 .login_signup {
+  border-style: dashed;
   display: flex;
-  gap: 1rem;
+  gap: 10px;
   align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
   color: #222;
-  padding: 0.5rem 1rem;
+  padding: 5px;
   border-radius: 20px;
   transition: background-color 0.2s;
 }
 
-.nav-link:hover {
-  background-color: #f7f7f7;
-}
+/* .nav-link:hover {
+  background-color: #e64d4d;
+  color: #e64d4d;
+} */
 
-.top-bar{
-  border-style: double;
+.button{
+  /* background-color: chartreuse; */
+  /* border-style: double; */
+  position: absolute;
+  top: 0%;
 }

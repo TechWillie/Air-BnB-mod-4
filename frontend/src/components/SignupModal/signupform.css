@@ -11,8 +11,8 @@
 }
 
 .popup{
-    backdrop-filter: blur(10px);
-    border-style: double;
+    backdrop-filter: blur(px);
+    /* border-style: double; */
     position: absolute;
     width: min-content;
     text-align: center;
