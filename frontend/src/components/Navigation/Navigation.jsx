@@ -38,17 +38,7 @@ function Navigation({ isLoaded }) {
     ) : (
       <>
       
-        <nav className="nav-container">
-      {/* <div className="login_signup">
-      <OpenModalButton
-            buttonText="Log In"
-            modalComponent={<LoginFormModal />}
-          />
-        <OpenModalButton
-            buttonText="Sign Up" 
-            modalComponent={<SignupFormModal />}
-          />
-        </div> */}
+      <nav className="nav-container">
       <ProfileButton />
     </nav>
       </>

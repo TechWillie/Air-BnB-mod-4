@@ -2,12 +2,14 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux'
 import {thunk} from 'redux-thunk'
 import sessionReducer from './session';
 import spotsReducer from './spots';
+import reviewsReducer from './reviews';
 
 
 // Create a rootReducer that calls combineReducers and pass in an empty object for now.
 const rootReducer = combineReducers({
   session: sessionReducer,
-  spots: spotsReducer
+  spots: spotsReducer,
+  reviews: reviewsReducer
 });
 
 // Initialize an enhancer variable 

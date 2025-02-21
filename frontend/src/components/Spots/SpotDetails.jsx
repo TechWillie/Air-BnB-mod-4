@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSpotDetails } from '../../store/spots';
 // import './SpotDetails.css'
+import Reviews from '../Reviews/Reviews';
 
 function SpotDetails() {
   const { spotId } = useParams();
@@ -50,6 +51,10 @@ console.log("THE spot: ", spot);
         <div>
           <p><span>${spot.price}</span> night</p>
         </div>
+      </div>
+      <div className='review-box'>
+        <h1>Reviews for {spot.name}</h1>
+        <Reviews />
       </div>
     </div>
   );

@@ -23,16 +23,6 @@ export const getSpotDetails = (spotId) => async dispatch => {
   dispatch(loadSpotDetails(spot));
   
 };
-// export const getSpotImage = (spotId) => async dispatch => {
-//    const imageResponse = await fetch(`/api/images/${spotId}`);
-// console.log(`first image api call ${imageResponse}`, imageResponse);
-
-// const images = await imageResponse.json();
-// console.log("to JSON: ", images[0].url);
-// const imageUrl = images[spotId].url
-
-// dispatch(loadImages(imageUrl));
-// }
 
 
 

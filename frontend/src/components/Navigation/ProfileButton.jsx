@@ -15,16 +15,15 @@
     const ulRef = useRef();
 
     const toggleMenu = (e) => {
-
       e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-      setShowMenu(!showMenu);
+      setShowMenu((prev) => !prev);
     };
 
     useEffect(() => {
       if (!showMenu) return;
 
       const closeMenu = (e) => {
-        if (!ulRef.current.contains(e.target)) {
+        if (ulRef.current && !ulRef.current.contains(e.target)) {
           setShowMenu(false);
         }
       };
@@ -36,11 +35,11 @@
 
     
 
-    const logout = (e) => {
+    const logout = async (e) => {
       e.preventDefault();
+      await dispatch(sessionActions.logout())
       console.log("willie logout")
-      dispatch(sessionActions.logout())
-      // .then(() => );
+    
       
       console.log("done route");
     
@@ -50,7 +49,10 @@
 
     return (
       <>
-        <button onClick={toggleMenu} className="button">
+        <button onClick={(e) => {
+          toggleMenu(e);
+          console.log("Targert hit!!!");
+        }} className="button">
           <FaUserCircle />
         </button>
         <ul className={ulClassName} ref={ulRef}>
