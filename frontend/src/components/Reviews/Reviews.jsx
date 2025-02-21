@@ -22,10 +22,10 @@ function Reviews () {
         <div className="review-box-details">
           <h1>Reviews...</h1>
           {Array.isArray(reviews) && reviews.length > 0 ? (
-            reviews.map((review, ind) => (
+            reviews?.map((review, ind) => (
               <div key={ind}>
-                <h2>{review.User.firstName}</h2>
-                <h3>{review.review}</h3>
+                <h2>{review?.User.firstName}</h2>
+                <h3>{review?.review}</h3>
               </div>
             ))
           ) : (

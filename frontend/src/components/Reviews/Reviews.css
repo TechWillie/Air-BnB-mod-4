@@ -1,5 +1,7 @@
 .review-box-details{
-    background-color: rgb(168, 168, 235);
+    /* background-color: rgb(168, 168, 235); */
     position: absolute;
-    
+    border-style: ridge;
+    border-width: 20px;
+    padding: 20px;
 }
