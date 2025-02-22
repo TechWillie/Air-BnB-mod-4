@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom"
 // import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ProfileButton from "./ProfileButton";
-import logo from "../../../../images/ABNB_logo.png";
+import logo from "../../../images/ABNB_logo.png";
 
 
 
