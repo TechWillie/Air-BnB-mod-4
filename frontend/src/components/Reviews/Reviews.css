@@ -5,3 +5,11 @@
     border-width: 20px;
     padding: 20px;
 }
+
+.name-star-structure{
+    /* background-color: rgb(160, 160, 238); */
+    display: flex;
+    justify-content: space-around;
+    font-weight: bolder;
+    
+}

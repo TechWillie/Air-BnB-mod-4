@@ -3,13 +3,16 @@ import {thunk} from 'redux-thunk'
 import sessionReducer from './session';
 import spotsReducer from './spots';
 import reviewsReducer from './reviews';
+import bookingsReducer from './bookings';
+
 
 
 // Create a rootReducer that calls combineReducers and pass in an empty object for now.
 const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotsReducer,
-  reviews: reviewsReducer
+  reviews: reviewsReducer,
+  bookings: bookingsReducer
 });
 
 // Initialize an enhancer variable 

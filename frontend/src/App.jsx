@@ -6,6 +6,7 @@ import * as sessionActions from './store/session';
 import Navigation from './components/Navigation/Navigation';
 import Spots from './components/Spots/Spots.jsx';
 import SpotDetails from './components/Spots/SpotDetails.jsx';
+import GetAllBookings from './components/Bookings/Bookings.jsx';
 
 // import LoginFormModel from './components/LoginFormModel/LoginFormModel';
 
@@ -42,11 +43,11 @@ const router = createBrowserRouter([
       {
         path: "spots/:spotId",
         element: <SpotDetails />
+      },
+      {
+        path: "spots/:spotId/bookings",
+        element: <GetAllBookings />
       }
-      // {
-      //   path: '/signup',
-      //   element: <SignupFormPage />
-      // }
     ]
   }
 ]);
