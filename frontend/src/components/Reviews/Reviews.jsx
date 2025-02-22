@@ -37,7 +37,7 @@ function Reviews () {
               </div>
             ))
           ) : (
-            <p>No reviews available</p> 
+            <p>New..</p> 
           )}
         </div>
       );

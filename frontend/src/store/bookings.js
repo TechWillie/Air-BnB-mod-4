@@ -1,5 +1,7 @@
 const LOAD_BOOKINGS = 'reviews/loadbookings';
 
+
+// folow up with Marlin
 const loadbookings = bookings => ({
   type: LOAD_BOOKINGS,
   bookings

@@ -1,12 +1,13 @@
-  import { useState, useEffect, useRef } from 'react';
-  import { useDispatch } from 'react-redux';
-  import { FaUserCircle } from 'react-icons/fa';
-  import * as sessionActions from '../../store/session';
-  import OpenModalButton from '../OpenModalButton/OpenModalButton';
-  import LoginFormModal from '../LoginFormModal/LoginFormModal';
-  import SignupFormModal from '../SignupModal/SignupFormModal';
-  // import { NavLink, useNavigate } from 'react-router-dom';
-  import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { FaUserCircle } from 'react-icons/fa';
+import * as sessionActions from '../../store/session';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
+import LoginFormModal from '../LoginFormModal/LoginFormModal';
+import SignupFormModal from '../SignupModal/SignupFormModal';
+// import { NavLink, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import './ProfileButton.css';
   
 
   function ProfileButton({ user }) {
@@ -15,12 +16,15 @@
     const ulRef = useRef();
 
     const toggleMenu = (e) => {
+      console.log("willie logout")
       e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-      setShowMenu((prev) => !prev);
+      setShowMenu((prev) => !prev)
     };
 
     useEffect(() => {
-      if (!showMenu) return;
+      if (showMenu) console.log("MENU Appear");
+       //return;
+      if (!showMenu) console.log("MENU BYE BYE");
 
       const closeMenu = (e) => {
         if (ulRef.current && !ulRef.current.contains(e.target)) {
@@ -38,51 +42,47 @@
     const logout = async (e) => {
       e.preventDefault();
       await dispatch(sessionActions.logout())
-      console.log("willie logout")
-    
-      
-      console.log("done route");
-    
+      setShowMenu(false)  
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
-      <>
+      <div className="button">
         <button onClick={(e) => {
           toggleMenu(e);
           console.log("Targert hit!!!");
-        }} className="button">
+        }}>
           <FaUserCircle />
         </button>
-        <ul className={ulClassName} ref={ulRef}>
+        <div className={ulClassName} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.firstName} {user.lastName}</li>
-              <li>{user.email}</li>
-              <li>
+              <h2>{user.username}</h2>
+              <h2>{user.firstName} {user.lastName}</h2>
+              <h2>{user.email}</h2>
+              <h2>
                 <button onClick={logout}>Log Out</button>
-              </li>
+              </h2>
             </>
           ) : (
             <>
-              <li>
+              <div>
                 <OpenModalButton
                   buttonText="Log In"
                   modalComponent={<LoginFormModal />}
                 />
-              </li>
-              <li>
+              </div>
+              <div>
                 <OpenModalButton
                   buttonText="Sign Up"
                   modalComponent={<SignupFormModal />}
                 />
-              </li>
+              </div>
             </>
           )}
-        </ul>
-      </>
+        </div>
+      </div>
     );
   }
 
