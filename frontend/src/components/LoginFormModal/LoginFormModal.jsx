@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/modal';
@@ -10,6 +10,7 @@ function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
@@ -25,11 +26,18 @@ function LoginFormModal() {
       });
   };
 
+  useEffect(() => {
+    credential.length >= 4 && password.length >= 6 ?
+    setIsButtonEnabled(true) : false;
+    
+  }, [credential, password])
+
   return (
     <div className='fader'>
       <form className='popup' onSubmit={handleSubmit}>
       <h1>Log In</h1>
         <label>
+          
           <input
             type="text"
             placeholder='Username or Email'
@@ -50,7 +58,7 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={!isButtonEnabled}>Log In</button>
       </form>
     </div>
   );

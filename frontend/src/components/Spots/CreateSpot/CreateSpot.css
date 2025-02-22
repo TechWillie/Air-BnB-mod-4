@@ -1,0 +1,15 @@
+.create-spot-container{
+    /* background-color: rgb(174, 174, 229); */
+    /* display: inline-block; */
+    display: flex;
+    align-content: center;
+    width: 650px;;
+
+}
+
+.break-bar{
+    background-color: rgb(234, 113, 113);
+    border-style: double;
+    padding: 2px;
+    margin-top: 3px;
+}

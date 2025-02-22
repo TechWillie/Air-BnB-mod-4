@@ -6,20 +6,9 @@ import PropTypes from 'prop-types';
 import ProfileButton from "./ProfileButton";
 import logo from "../../../images/ABNB_logo.png";
 
-
-
-
 import "./Navigation.css"
 
-// const Greeting = () => {
-//     return (
-//       <OpenModalButton
-//         buttonText="Greeting"
-//         modalComponent={<h2>Hello World!</h2>}
-//         onButtonClick={() => console.log("Greeting initiated")}
-//       />
-//     );
-//   };
+
 
   Navigation.propTypes = {
     isLoaded: PropTypes.bool

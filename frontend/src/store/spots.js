@@ -1,5 +1,9 @@
 const LOAD_SPOTS = 'spots/loadSpots';
 
+const CREATE_SPOT = 'spots/createSpot';
+
+// Add this action creator
+
 // Add to existing actions
 const LOAD_SPOT_DETAILS = 'spots/loadSpotDetails';
 
@@ -11,6 +15,11 @@ const loadSpotDetails = spot => ({
 const loadSpots = spots => ({
   type: LOAD_SPOTS,
   spots
+});
+
+const createSpot = (spot) => ({
+  type: CREATE_SPOT,
+  spot
 });
 
 export const getSpotDetails = (spotId) => async dispatch => {
@@ -32,6 +41,22 @@ export const getSpots = () => async dispatch => {
   dispatch(loadSpots(spots));
 };
 
+export const createNewSpot = (spotData) => async dispatch => {
+  const response = await fetch('/api/spots/new', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(spotData)
+  });
+
+  if (response.ok) {
+    const spot = await response.json();
+    dispatch(createSpot(spot));
+    return spot;
+  }
+};
+
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
@@ -43,6 +68,11 @@ const spotsReducer = (state = {}, action) => {
         ...state,
         currentSpot: action.spot
       };
+    case CREATE_SPOT:
+      return {
+        ...state,
+        spots: [...state.spots, action.spot]
+      }
     default:
       return state;
       }

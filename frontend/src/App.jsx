@@ -7,6 +7,7 @@ import Navigation from './components/Navigation/Navigation';
 import Spots from './components/Spots/Spots.jsx';
 import SpotDetails from './components/Spots/SpotDetails.jsx';
 import GetAllBookings from './components/Bookings/Bookings.jsx';
+import CreateSpot from './components/Spots/CreateSpot/CreateSpot.jsx';
 
 // import LoginFormModel from './components/LoginFormModel/LoginFormModel';
 
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "spots/:spotId/bookings",
         element: <GetAllBookings />
+      },
+      {
+        path: "spots/new",
+        element: <CreateSpot />
       }
     ]
   }

@@ -1,9 +1,4 @@
-.login_signup {
-    border-style: ridge;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
+
 
   .nav-link {
     text-decoration: none;
@@ -13,16 +8,13 @@
     transition: background-color 0.2s;
   }
   
-  /* .nav-link:hover {
-    background-color: #e64d4d;
-    color: #e64d4d;
-  } */
 
   .button{
     /* background-color: rgb(226, 238, 213); */
     /* border-style: double; */
     position: absolute;
     /* display: flex; */
+    width: 70px;
     top: 0%;
     
      
@@ -38,4 +30,13 @@
     display: none;
   }
 
-  
+  .create-spot-link{
+    /* background-color: rgb(149, 149, 230); */
+    position: relative;
+    display: inline-block;
+    right: 140px;
+    top: -43px;
+    width: 155px;
+    text-decoration: none;
+    /* column-width: 100px; */
+  }

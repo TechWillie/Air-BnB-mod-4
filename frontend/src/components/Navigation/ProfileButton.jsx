@@ -1,18 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupModal/SignupFormModal';
-// import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './ProfileButton.css';
+import { AiOutlineMenu } from "react-icons/ai";
+// import CreateSpot from '../Spots/CreateSpot/CreateSpot';
   
 
-  function ProfileButton({ user }) {
+  function ProfileButton() {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
+    const user = useSelector((state) => state.session.user);
     const ulRef = useRef();
 
     const toggleMenu = (e) => {
@@ -28,24 +31,31 @@ import './ProfileButton.css';
 
       const closeMenu = (e) => {
         if (ulRef.current && !ulRef.current.contains(e.target)) {
-          setShowMenu(false);
-        }
-      };
+          setShowMenu(false);}};
 
       document.addEventListener('click', closeMenu);
-
-      return () => document.removeEventListener("click", closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
+    // useEffect(() => {
+    //   const newSpot =  user ? (<h1>Create a New Spot</h1>): false;
+    // }, [user])
     
 
     const logout = async (e) => {
       e.preventDefault();
-      await dispatch(sessionActions.logout())
-      setShowMenu(false)  
+      const response = await dispatch(sessionActions.logout())
+      if(response){
+        setShowMenu(false)
+        dispatch({ type: 'REMOVE_USER' });
+      }  
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
+    // function createSpot(){
+    //   return user ? <h4 className='create-spot-link'>Create a New Spot</h4>: false;
+    // }
 
     return (
       <div className="button">
@@ -53,18 +63,23 @@ import './ProfileButton.css';
           toggleMenu(e);
           console.log("Targert hit!!!");
         }}>
-          <FaUserCircle />
+          <AiOutlineMenu /> <FaUserCircle />
         </button>
+        {user && (
+          <NavLink to="/spots/new" className='create-spot-link'>
+            <h4>Create a New Spot</h4>
+          </NavLink>
+        )}
         <div className={ulClassName} ref={ulRef}>
           {user ? (
-            <>
+            <div>
               <h2>{user.username}</h2>
               <h2>{user.firstName} {user.lastName}</h2>
               <h2>{user.email}</h2>
               <h2>
                 <button onClick={logout}>Log Out</button>
               </h2>
-            </>
+            </div>
           ) : (
             <>
               <div>
