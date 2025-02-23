@@ -1,11 +1,35 @@
-.create-spot-container{
-    /* background-color: rgb(174, 174, 229); */
-    /* display: inline-block; */
+.create-spot-container {
     display: flex;
-    align-content: center;
-    width: 650px;;
-
-}
+    flex-direction: column;
+    align-items: center;
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .create-spot-container h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 15px 0;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .create-spot-container form {
+    width: 100%;
+  }
+  
+  .create-spot-container section {
+    margin: 20px 0;
+    padding: 15px;
+  }
+  
+  .create-spot-container input,
+  .create-spot-container textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+  }
 
 .break-bar{
     background-color: rgb(234, 113, 113);
@@ -13,3 +37,53 @@
     padding: 2px;
     margin-top: 3px;
 }
+
+.price-input {
+    /* display: flex; */
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .price-input span{
+    font-size: 18px;
+    font-weight: bold;
+    
+  }
+  
+  .price-input input {
+    flex: 1;
+    display: flex;
+  }
+
+  .money {
+    display: flex;
+    position: relative;
+    width: fit-content;
+  }
+  
+  .money span {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .money input {
+    padding-left: 20px;
+  }
+
+  .submit{
+    /* background-color: rgb(196, 196, 230); */
+    display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  width: fit-content;
+  }
+
+  textarea {
+    min-height: 150px;
+    resize: vertical;
+    width: 100%;
+    padding: 12px;
+    /* line-height: 1.5; */
+  }

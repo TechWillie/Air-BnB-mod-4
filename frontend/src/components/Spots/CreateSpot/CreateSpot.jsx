@@ -2,11 +2,19 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import "./CreateSpot.css"
+import { createImage } from '../../../store/images';
+import { csrfFetch } from '../../../store/csrf';
+
+
 
 function CreateSpot() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  const [additionalImages, setAdditionalImages] = useState(['', '', '', '']);
+  // const user = useSelector(state => state.session.user);
+
+
+
   const [formData, setFormData] = useState({
     address: '',
     city: '',
@@ -32,24 +40,56 @@ function CreateSpot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const response = await fetch('/api/spots/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
+
+    console.log('1. Submitting Willie Form Data:', formData); 
+
+    // Validate if any field is empty
+    let newErrors = {};
+    Object.entries(formData).forEach(([key, value]) => {
+        if (!value.trim()) {
+            newErrors[key] = `${key} is required`;
+        }
     });
 
-    if (response.ok) {
-      const spot = await response.json();
-      dispatch({ type: 'CREATE_SPOT', payload: spot })
-      navigate(`/spots/${spot.id}`);
-    } else {
-      const data = await response.json();
-      setErrors(data.errors);
+    // If errors exist, update state and stop submission
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
     }
-  };
+
+    try {
+      console.log('1. About to make fetch request');
+        const response = await csrfFetch(`/api/spots`, {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          });
+          console.log('2. Response status:', response.status);
+
+
+        if (response.ok) {
+            const spot = await response.json();
+            console.log('3. Response data:', spot);
+            dispatch({ type: 'CREATE_SPOT', payload: spot });
+
+            additionalImages.forEach(imageUrl => {
+              if (imageUrl.trim()) {
+                dispatch(createImage(spot.id, { url: imageUrl }));
+              }
+            });
+
+            navigate(`/spots/${spot.id}`);
+        } else {
+            const data = await response.json();
+            setErrors(data.errors);
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+        setErrors({ general: "An error occurred. Please try again." });
+    }
+};
 
   return (
     <div className="create-spot-container">
@@ -70,7 +110,7 @@ function CreateSpot() {
           <h2>Street Address</h2>
           <input
             type="text"
-            name="street-adress"
+            name="address"
             placeholder=' Street Address'
             value={formData.address}
             onChange={handleChange}
@@ -102,24 +142,24 @@ function CreateSpot() {
         <div>
           <h2>Latitude</h2>
           <input
-            type="text"
-            name="latitude"
+            type="number"
+            name="lat"
             placeholder='  Latitude'
             value={formData.lat}
             onChange={handleChange}
           />
-          {errors.latitude && <span className="error">{errors.latitude}</span>}
+          {errors.lat && <span className="error">{errors.lat}</span>}
         </div>
         <div>
           <h2>Longitude</h2>
           <input
-            type="text"
-            name="longitude"
+            type="number"
+            name="lng"
             placeholder=' Longitude'
             value={formData.lng}
             onChange={handleChange}
           />
-          {errors.longitude && <span className="error">{errors.longitude}</span>}
+          {errors.lng && <span className="error">{errors.lng}</span>}
         </div>
         <div>
           <h2>Describe your place to guests..</h2>
@@ -127,7 +167,7 @@ function CreateSpot() {
           fast wifi or parking, and what you love about he neighborhood.</h5>
           <textarea
             type="text"
-            name="describe"
+            name="description"
             placeholder='Please write at least 30 characters'
             value={formData.description}
             onChange={handleChange}
@@ -148,10 +188,10 @@ function CreateSpot() {
           {errors.name && <span className="error">{errors.name}</span>}
         </div>
         <div className='break-bar'></div>
-        <div>
+        <div className='price-input'>
           <h2>Set a base price for your spot</h2>
           <h5>Competitive pricing can help your listing stand out and rank higher in search results</h5>
-          <>$ </><input
+          <span className='money'>$ </span><input
             type="number"
             name="price"
             placeholder='Price per night (USD)'
@@ -166,47 +206,29 @@ function CreateSpot() {
           <h5>Submit a link to at least one photo to publish your spot</h5>
           <input
             type="text"
-            name="preview"
+            name="previewImage"
             placeholder=' Preview Image URL'
-            value={formData.address}
+            value={formData.previewImage}
             onChange={handleChange}
           />
-          {errors.preview && <span className="error">{errors.preview}</span>}
-          <input
-            type="text"
-            name="preview"
-            placeholder=' Image URL'
-            value={formData.address}
-            onChange={handleChange}
-          />
-          {errors.preview && <span className="error">{errors.preview}</span>}
-          <input
-            type="text"
-            name="preview"
-            placeholder=' Image URL'
-            value={formData.address}
-            onChange={handleChange}
-          />
-          {errors.preview && <span className="error">{errors.preview}</span>}
-          <input
-            type="text"
-            name="preview"
-            placeholder=' Image URL'
-            value={formData.address}
-            onChange={handleChange}
-          />
-          {errors.preview && <span className="error">{errors.preview}</span>}
-          <input
-            type="text"
-            name="preview"
-            placeholder=' Image URL'
-            value={formData.address}
-            onChange={handleChange}
-          />
-          {errors.preview && <span className="error">{errors.preview}</span>}
+          {errors.previewImage && <span className="error">{errors.previewImage}</span>}
+          {/* Then add the 4 additional image inputs */}
+          {additionalImages.map((url, index) => (
+            <input
+              key={index}
+              type="text"
+              placeholder="Image URL"
+              value={url}
+              onChange={(e) => {
+                const newImages = [...additionalImages];
+                newImages[index] = e.target.value;
+                setAdditionalImages(newImages);
+              }}
+            />
+          ))}
         </div>
         <div className='break-bar'></div>
-        <button type="submit">Create Spot</button>
+        <button className='submit' type="submit">Create Spot</button>
       </form>
     </div>
   );

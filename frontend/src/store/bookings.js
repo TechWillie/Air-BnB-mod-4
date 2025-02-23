@@ -1,4 +1,4 @@
-const LOAD_BOOKINGS = 'reviews/loadbookings';
+const LOAD_BOOKINGS = 'bookings/loadbookings';
 
 
 // folow up with Marlin

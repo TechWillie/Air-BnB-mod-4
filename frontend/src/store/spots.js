@@ -1,3 +1,5 @@
+import { csrfFetch } from "./csrf";
+
 const LOAD_SPOTS = 'spots/loadSpots';
 
 const CREATE_SPOT = 'spots/createSpot';
@@ -42,7 +44,9 @@ export const getSpots = () => async dispatch => {
 };
 
 export const createNewSpot = (spotData) => async dispatch => {
-  const response = await fetch('/api/spots/new', {
+  console.log("Willie log 1", spotData);
+  
+  const response = await csrfFetch('/api/spots', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
